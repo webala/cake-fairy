@@ -5,13 +5,13 @@ import NavItem from "./NavItem"
 
 function Header() {
   return (
-    <header className="flex p-5 items-center justify-between">
-        <div className="flex flex-row items-center justify-between">
-            <Image className="rounded-full" src={logo} width={100} height={100} layour="raw"/>
-            <h1 className="ml-5 text-2xl">Sheila Bakery</h1>
+    <header className="header flex items-center justify-between relative w-full py-10">
+        <div className="flex items-center justify-between z-10 w-2/6">
+            <Image className="rounded-full" src={logo} width={50} height={50} layout="intrinsic"/>
+            <h1 className="sm:text-2xl">Cake Fairy</h1>
         </div>
-        <MenuIcon className="h-5 sm:invisible"/>
-        <div className="nav-items invisible sm:visible flex">
+        <MenuIcon className="h-5 sm:invisible z-10 right-10"/>
+        <div className="nav-items invisible sm:visible flex absolute sm:right-10">
             <NavItem Icon={NewspaperIcon} text="Menu" />
             <NavItem Icon={BookOpenIcon} text="Services" />
             <NavItem Icon={InformationCircleIcon} text="About" />

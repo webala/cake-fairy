@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Category {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  pFive       Int
+  one         Int
+  onePFive    Int
+  two         Int
+  twoPFive    Int
+  three       Int
+  flavours    Flavour[]
+
+}
+
+
+model Flavour {
+  id          Int @id @default(autoincrement())
+  name        String
+  category    Category @relation(fields: [categoryId],references: [id])
+  categoryId  Int
+}
