@@ -6,15 +6,14 @@ import graduation from "../public/graduation.jpg";
 
 function Services() {
   return (
-    <div className="my-10 grid grid-cols-2 sm:grid-cols-4 md:flex justify-evenly py-10">
-      <Service image={birthday} service="Birthday" />
-      <Service image={brakefast} service="Brakefast" />
-      <Service image={disert} service="Disert" />
-      <Service image={graduation} service="Graduation" />
-      <Service image={birthday} service="Birthday" />
-      <Service image={brakefast} service="Brakefast" />
-      <Service image={disert} service="Disert" />
-      <Service image={graduation} service="Graduation" />
+    <div className="services">   
+      <h1 className=' text-2xl heading'>Services</h1>
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:flex justify-evenly py-10">
+        <Service image={birthday} service="Birthdays" />
+        <Service image={brakefast} service="Brakefast" />
+        <Service image={disert} service="Diserts" />
+        <Service image={graduation} service="Graduations" />
+      </div>
     </div>
   );
 }

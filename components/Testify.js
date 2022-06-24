@@ -3,7 +3,7 @@ import {useState} from 'react'
 function Testify() {
     const[testimony, setTestimony] = useState()
   return (
-    <div>
+    <div className="py-10">
         <form>
             <div className='flex flex-col items-center'>
                 <label className='text-xl mx-5 mt-5'>Share your experience with Cake Fairy</label>
