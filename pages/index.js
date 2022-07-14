@@ -13,12 +13,12 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export async function getServerSideProps (){
-  const categories = await prisma.category.findMany({
+  const categories = await prisma.category_price.findMany({
     include: {
-      flavours: true
+      flavour: true
     }
   })
-  
+   console.log('categories', categories)
   return {
     props: {
       categories: categories,

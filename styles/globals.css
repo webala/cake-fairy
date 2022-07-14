@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Pacifico&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 html {
   --background-primary: #1c0a00;
@@ -12,12 +14,14 @@ html {
 body {
   background: var(--background-primary);
   color: var(--text-primary);
+  font-family: 'Josefin Sans', sans-serif;
 }
 
-.order-details form input, textarea {
+form input, textarea {
   border: 1px solid black;
   border-radius: 5px;
   height: 40px;
+  color: var(--text-primary);
 }
 
 textarea {
@@ -33,8 +37,13 @@ textarea {
   font-size: 1.9em;
 }
 
+.landing .text {
+  font-size: 1.5em;
+}
+
 .heading {
   font-size: 1.5em;
+  font-family: 'Pacifico', cursive;
 }
 
 .services {
@@ -47,12 +56,20 @@ textarea {
   margin: 100px 0 100px 0;
 }
 
+.order-btn-icon {
+  transform: translateX(-50px);
+}
+
+.order-btn:hover .order-btn-icon {
+  transform: translateX(0);
+}
+
 @media screen and (min-width: 640px) {
   .landing .text {
     font-size: 1.5em;
   }
   .landing {
-    margin: 200px 0 100px 0;
+    margin: 100px 0 100px 0;
   }
 
   .heading {

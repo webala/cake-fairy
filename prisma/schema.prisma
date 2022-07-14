@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,24 +7,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model Category {
-  id          Int     @id @default(autoincrement())
-  name        String  @unique
-  pFive       Int
-  one         Int
-  onePFive    Int
-  two         Int
-  twoPFive    Int
-  three       Int
-  flavours    Flavour[]
-
+model category_price {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(20)
+  pfive    Int
+  one      Int
+  onepfive Int
+  two      Int
+  twopfive Int
+  three    Int
+  flavour  flavour[]
 }
 
+model flavour {
+  id             Int             @id @default(autoincrement())
+  name           String?         @db.VarChar(50)
+  category_id    Int?
+  category_price category_price? @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  order_item     order_item[]
+}
 
-model Flavour {
-  id          Int @id @default(autoincrement())
-  name        String
-  category    Category @relation(fields: [categoryId],references: [id])
-  categoryId  Int
+model order {
+  id              Int          @id @default(autoincrement())
+  client_name     String       @db.VarChar(100)
+  client_phone    String       @db.VarChar(20)
+  date            DateTime     @default(now()) @db.Timestamp(6)
+  collection_date DateTime     @db.Date
+  collection_time String       @db.VarChar(10)
+  order_total     Int
+  delivery        Boolean
+  order_item      order_item[]
+}
+
+model order_item {
+  id             Int      @id @default(autoincrement())
+  flavour_id     Int?
+  size           String   @db.VarChar(10)
+  wording        String   @db.VarChar(25)
+  specifications String?  @db.VarChar(300)
+  order_id       Int?
+  add_on_id      Int?
+  add_ons        add_ons? @relation(fields: [add_on_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  flavour        flavour? @relation(fields: [flavour_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  order          order?   @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model add_ons {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(20)
+  price      Int
+  order_item order_item[]
 }
