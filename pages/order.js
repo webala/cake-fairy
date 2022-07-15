@@ -75,12 +75,12 @@ export default function Order (props) {
           order_total: order_total,
           delivery: delivery,
           order_item: {
-            create: {
+            create: [{
               flavour_id: flavorsSelected.flavourId,
               size: size,
               wording: wording,
-              specifications: preferences ? preferences: '',
-            }
+              preferences: preferences ? preferences: '',
+            }]
           }
       }
 
