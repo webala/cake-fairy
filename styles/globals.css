@@ -22,12 +22,14 @@ form input, textarea {
   border-radius: 5px;
   height: 40px;
   color: var(--text-primary);
+  width: 200px;
 }
 
 textarea {
-  height: 100px;
-  width: 300px;
+  height: 100px; 
 }
+
+
 
 .main {
   padding: 20px;
@@ -64,6 +66,19 @@ textarea {
   transform: translateX(0);
 }
 
+.order .text,.order label {
+  font-size: 1.2em;
+  transition: 0.5s ease;
+}
+
+.order-details-form {
+  margin: 100px 0;
+}
+
+.order-details {
+  margin-top: 100px;
+}
+
 @media screen and (min-width: 640px) {
   .landing .text {
     font-size: 1.5em;
@@ -78,6 +93,9 @@ textarea {
   }
   .about {
     margin: 100px 0 0 0;
+  }
+  form input, textarea {
+    width: 300px;
   }
 }
 @media screen and (min-width: 1080px) {
