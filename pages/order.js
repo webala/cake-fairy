@@ -3,10 +3,11 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import {AiOutlineClose} from 'react-icons/ai'
 
-import { PrismaClient } from '@prisma/client'
+// import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
+// const prisma = new PrismaClient()
 
+import prisma from '../lib/prisma'
 
 export async function getServerSideProps (){
     const categories = await prisma.category_price.findMany({
@@ -21,6 +22,14 @@ export async function getServerSideProps (){
       }
     }
   }
+
+// export async function saveOrder (order) {
+//   const saveOrder = prisma.order.create({
+//     data: order,
+//     include: order_item
+//   })
+//   console.log(saveOrder)
+// }
 
 export default function Order (props) {
 
@@ -66,25 +75,26 @@ export default function Order (props) {
         order_total = category.threepfive
       }
       
+      console.log('order total: ', order_total)
 
       const order = {
           client_name: clientName,
           client_phone: phone,
-          collection_date: collectionDate,
+          collection_date: new Date(collectionDate),
           collection_time: collectionTime,
           order_total: order_total,
-          delivery: delivery,
+          delivery: delivery == 'true' ? true : false,
           order_item: {
             create: [{
               flavour_id: flavorsSelected.flavourId,
-              size: size,
+              size: parseInt(size),
               wording: wording,
               preferences: preferences ? preferences: '',
             }]
           }
       }
 
-      
+
 
       const response = await fetch('/api/order', {
         method: 'POST',

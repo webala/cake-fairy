@@ -28,7 +28,7 @@ model flavour {
 }
 
 model order {
-  id              BigInt       @id @default(autoincrement())
+  id              Int          @id @default(autoincrement())
   client_name     String       @db.VarChar(50)
   client_phone    String       @db.VarChar(50)
   order_date      DateTime     @default(now()) @db.Date
@@ -41,12 +41,12 @@ model order {
 }
 
 model order_item {
-  id          BigInt   @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   flavour_id  Int?
   size        Int?
   wording     String   @db.VarChar(25)
   preferences String?  @db.VarChar(300)
-  order_id    BigInt   @default(autoincrement())
+  order_id    Int      @default(autoincrement())
   flavour     flavour? @relation(fields: [flavour_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_flavour")
   order       order    @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order")
 }

@@ -9,7 +9,6 @@ function MenuItem({category, pathname, setFlavoursSelected, flavorsSelected}) {
     <div className="flex flex-col pt-7">
      <h1 className='my-6 heading'>0.5kg- ksh{category.pfive} 1kg- ksh{category.one} 1.5kg- ksh{category.onepfive} 2kg- ksh{category.two} 2.5kg- ksh{category.twopfive} 3kg- ksh{category.three}</h1>
           {flavours.map((flavour, index) => {
-
             return (<div key={index} className='flex flex-row my-2 cursor-pointer'>
               <p className='mx-10' onClick={() => setFlavoursSelected( {flavourName: flavour.name, categoryId: flavour.category_id, flavourId: flavour.id})}>{flavour.name}</p>
             </div>)
