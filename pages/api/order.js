@@ -14,7 +14,8 @@ export default async function handler(req, res) {
     const savedOrder = await prisma.order.create({
       data: orderData,
       include: {
-        order_item: true
+        order_item: true,
+        order_item_add_ons: true
       }
     })
 

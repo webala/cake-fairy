@@ -28,16 +28,19 @@ model flavour {
 }
 
 model order {
-  id              Int          @id @default(autoincrement())
-  client_name     String       @db.VarChar(50)
-  client_phone    String       @db.VarChar(50)
-  order_date      DateTime     @default(now()) @db.Date
-  collection_date DateTime     @db.Date
-  collection_time String       @db.VarChar(10)
-  order_total     Int
-  delivery        Boolean      @default(false)
-  complete        Boolean      @default(false)
-  order_item      order_item[]
+  id                 Int                  @id @default(autoincrement())
+  client_name        String               @db.VarChar(50)
+  client_phone       String               @db.VarChar(50)
+  order_date         DateTime             @default(now()) @db.Date
+  collection_date    DateTime             @db.Date
+  collection_time    String               @db.VarChar(10)
+  order_total        Int
+  delivery           Boolean              @default(false)
+  complete           Boolean              @default(false)
+  picked             Boolean?             @default(false)
+  deposit_paid       Boolean?             @default(false)
+  order_item         order_item[]
+  order_item_add_ons order_item_add_ons[]
 }
 
 model order_item {
@@ -52,7 +55,16 @@ model order_item {
 }
 
 model add_ons {
-  id    Int    @id @default(autoincrement())
-  name  String @db.VarChar(20)
-  price Int
+  id                 Int                  @id @default(autoincrement())
+  name               String               @db.VarChar(20)
+  price              Int
+  order_item_add_ons order_item_add_ons[]
+}
+
+model order_item_add_ons {
+  id        Int      @id @default(autoincrement())
+  order_id  Int?
+  add_on_id Int?
+  add_ons   add_ons? @relation(fields: [add_on_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  order     order?   @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

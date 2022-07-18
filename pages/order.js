@@ -43,11 +43,23 @@ export default function Order(props) {
   const [collectionTime, setCollectionTime] = useState();
   const [wording, setWording] = useState();
   const [preferences, setPreferences] = useState();
-  const [addOns, setAddOns] = useState();
+  const [addOns, setAddOns] = useState([]);
 
   const router = useRouter();
   const pathname = router.pathname;
   // console.log("flaovursSelected:", flavorsSelected)
+
+  const handleAddOnsChange = (e) => {
+    const value = e.target.value
+    if (e.target.checked) {
+      let newAddOns = [...addOns, value]
+      setAddOns(newAddOns)
+    } else {
+      let newAddOns = addOns.filter(item => item !== value)
+      setAddOns(newAddOns)
+    }
+  
+  }
 
   const processOrder = async (e) => {
     e.preventDefault();
@@ -56,6 +68,14 @@ export default function Order(props) {
     const category = categories.find((category) => category.id === categoryId);
     console.log(category.one);
     let order_total;
+    let add_ons = []
+
+    for(let i = 0; i < addOns.length; i++) {
+      let obj = {add_on_id: parseInt(addOns[i])}
+      add_ons.push(obj)
+    }
+
+    console.log('add on ids', add_ons)
 
     if (size == 0.5) {
       order_total = category.pfive;
@@ -90,6 +110,9 @@ export default function Order(props) {
           },
         ],
       },
+      order_item_add_ons: {
+        create: add_ons
+      }
     };
 
     const response = await fetch("/api/order", {
@@ -322,9 +345,9 @@ export default function Order(props) {
                 <input
                   className="w-4"
                   name="add-ons"
-                  type="radio"
-                  value="cake-toppers"
-                  onClick={(e) => setAddOns(e.target.value)}
+                  type="checkbox"
+                  value={1}
+                  onClick={(e) => handleAddOnsChange(e)}
                 />
               </div>
               <div className="flex items-center">
@@ -332,9 +355,9 @@ export default function Order(props) {
                 <input
                   className="w-4"
                   name="add-ons"
-                  type="radio"
-                  value="edible-images"
-                  onClick={(e) => setAddOns(e.target.value)}
+                  type="checkbox"
+                  value={2}
+                  onClick={(e) => handleAddOnsChange(e)}
                 />
               </div>
               <div className="flex items-center">
@@ -342,9 +365,9 @@ export default function Order(props) {
                 <input
                   className="w-4"
                   name="add-ons"
-                  type="radio"
-                  value="sparkling-candles"
-                  onClick={(e) => setAddOns(e.target.value)}
+                  type="checkbox"
+                  value={3}
+                  onClick={(e) => handleAddOnsChange(e)}
                 />
               </div>
             </div>
