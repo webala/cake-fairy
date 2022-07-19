@@ -1,5 +1,7 @@
 import prisma from "../lib/prisma";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { BsToggleOff, BsToggleOn } from "react-icons/bs";
+import OrderItem from "../components/OrderItem";
 
 export async function getServerSideProps() {
   const orders = await prisma.order.findMany({
@@ -27,70 +29,77 @@ export async function getServerSideProps() {
 
 export default function Dashboard(props) {
   const [orders, setOrders] = useState(props.orders);
+  const [completeOrders, setCompleteOrders] = useState(
+    orders.filter((order) => order.complete == true)
+  );
+  const [newOrders, setNewOrders] = useState(
+    orders.filter((order) => order.complete == false)
+  );
+
   const [flavours, setFlavours] = useState(props.flavours);
-  console.log("flavours: ", flavours);
-  console.log("orders: ", orders);
+
+  const updateOrder = async (orderId, orderData) => {
+    const body = {
+      orderId,
+      orderData,
+    };
+    const response = await fetch("/api/orderUpdate", {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      console.log("status text: ", response.statusText);
+      throw new Error(response.statusText);
+    }
+
+    return await response.json();
+  };
   return (
-    <div className="dashboard p-2">
-      <div>
-        <h1 className="heading">New Orders</h1>
-        <div className="new-orders">
-          {orders.map((order, index) => {
-            const order_item = order.order_item[0];
-            const flavourId = order_item.flavour_id;
-            const flavour = flavours.find((flavour) => flavour.id == flavourId);
-            const order_date = order.order_date.slice(4, 21);
-            const collection_date = order.collection_date.slice(4, 21);
-            const deposit = order.order_total / 2
+    <div className="flex flex-col items-center">
+      <h1 className="heading">Chefs Panel</h1>
 
-            console.log(flavour);
-            return (
-              <div key={index} className="order mb-14 p-2">
-                {!order.picked && !order.complete && (
-                  <div>
-                    <div className="order-item">
-                      <h2 className="heading-secondary text-white">Cake Details</h2>
-                      <div>
-                        <p>Flavour: {flavour.name}</p>
-                        <p>Cake Size: {order_item.size}</p>
-                        {order_item.wording && (
-                          <p>Cake Wording: {order_item.wording}</p>
-                        )}
-                        {order_item.preferences && (
-                          <p>Other Preferences: {order_item.preferences}</p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="order-details">
-                      <h2 className="heading-secondary text-white">Order Details</h2>
-                      <div>
-                        <p>Order Date: {order_date}</p>
-                        <p>Collection Date: {collection_date}</p>
-                        <p>Order Total: {order.order_total}</p>
-                        <p>{order.delivery && <p>To be delivered</p>}</p>
-                        <p>{!order.delivery && <p>To be picked</p>}</p>
-                        <p>{order.deposit_paid && <p className="text-green-600">Deposit: {deposit}</p>}</p>
-                        <p>{!order.deposit_paid && <p className="text-red-600">Deposit: {deposit}</p>}</p>
-                      </div>
-                    </div>
-
-                    <div className="client-details">
-                      <h2 className="heading-secondary text-white">Client Details</h2>
-                      <div>
-                        <p>Client Name: {order.client_name}</p>
-                        <p>Client Phone: {order.client_phone}</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+      <div className="dashboard p-2 flex flex-col sm:flex-row justify-evenly">
+        <div>
+          <h1 className="heading">New Orders</h1>
+          <div className="new-orders md:grid grid-cols-2 gap-3">
+            {newOrders.map((order, index) => {
+              return (
+                <div key={index}>
+                  { !order.complete && (
+                    <OrderItem
+                      order={order}
+                      flavours={flavours}
+                      section="incomplete-orders"
+                      updateOrder={updateOrder}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div>
-        <div className="picked-orders"></div>
-        <div className="complete-orders"></div>
+        <div>
+          <div>
+            <h1 className="heading">Complete Orders</h1>
+            <div className="complete-orders md:grid grid-cols-2 gap-3">
+              {completeOrders.map((order, index) => {
+                return (
+                  <div key={index}>
+                    {order.complete && (
+                      <OrderItem
+                        order={order}
+                        flavours={flavours}
+                        section="complete-orders"
+                        updateOrder={updateOrder}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
