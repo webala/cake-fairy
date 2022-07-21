@@ -50,16 +50,15 @@ export default function Order(props) {
   // console.log("flaovursSelected:", flavorsSelected)
 
   const handleAddOnsChange = (e) => {
-    const value = e.target.value
+    const value = e.target.value;
     if (e.target.checked) {
-      let newAddOns = [...addOns, value]
-      setAddOns(newAddOns)
+      let newAddOns = [...addOns, value];
+      setAddOns(newAddOns);
     } else {
-      let newAddOns = addOns.filter(item => item !== value)
-      setAddOns(newAddOns)
+      let newAddOns = addOns.filter((item) => item !== value);
+      setAddOns(newAddOns);
     }
-  
-  }
+  };
 
   const processOrder = async (e) => {
     e.preventDefault();
@@ -68,14 +67,14 @@ export default function Order(props) {
     const category = categories.find((category) => category.id === categoryId);
     console.log(category.one);
     let order_total;
-    let add_ons = []
+    let add_ons = [];
 
-    for(let i = 0; i < addOns.length; i++) {
-      let obj = {add_on_id: parseInt(addOns[i])}
-      add_ons.push(obj)
+    for (let i = 0; i < addOns.length; i++) {
+      let obj = { add_on_id: parseInt(addOns[i]) };
+      add_ons.push(obj);
     }
 
-    console.log('add on ids', add_ons)
+    console.log("add on ids", add_ons);
 
     if (size == 0.5) {
       order_total = category.pfive;
@@ -111,8 +110,8 @@ export default function Order(props) {
         ],
       },
       order_item_add_ons: {
-        create: add_ons
-      }
+        create: add_ons,
+      },
     };
 
     const response = await fetch("/api/order", {
@@ -159,95 +158,99 @@ export default function Order(props) {
         pathname={pathname}
         setFlavoursSelected={setFlavoursSelected}
       />
+
       <form
         onSubmit={async (e) => {
           await processOrder(e);
         }}
         className="order-details-form"
       >
-        <div className="cart flex flex-col sm:items-center">
-          <h1 className="heading">Cart</h1>
-
+        <div className="cart flex flex-col sm:items-center bg-stone-900">
           {flavorsSelected && (
-            <div className="my-4">
-              <div className="mb-5">
-                <p className="text">
-                  You have selected{" "}
-                  <span className="text text-white">
-                    {flavorsSelected.flavourName}
-                  </span>
-                </p>
+            
+              <div className="my-4 p-2">
+                <div className="mb-5 ">
+                  <h1 className="heading">Cart</h1>
+                  <p className="text">
+                    You have selected{" "}
+                    <span className="text text-white">
+                      {flavorsSelected.flavourName}
+                    </span>
+                  </p>
+                </div>
+                <label className="text">Select Cake Size</label>
+                <div className="flex justify-between flex-wrap">
+                  <div className="flex items-center mr-2">
+                    <label className="mr-1">0.5kg</label>
+                    <input
+                      className="w-4"
+                      name="size"
+                      type="radio"
+                      value={0.5}
+                      onClick={(e) => setSize(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center mr-2">
+                    <label className="mr-1">1kg</label>
+                    <input
+                      className="w-4"
+                      name="size"
+                      type="radio"
+                      value={1}
+                      onClick={(e) => setSize(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center mr-2">
+                    <label className="mr-1">1.5kg</label>
+                    <input
+                      className="w-4"
+                      name="size"
+                      type="radio"
+                      value={1.5}
+                      onClick={(e) => setSize(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center mr-2">
+                    <label className="mr-1">2kg</label>
+                    <input
+                      className="w-4"
+                      name="size"
+                      type="radio"
+                      value={2}
+                      onClick={(e) => setSize(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center mr-2">
+                    <label className="mr-1">2.5kg</label>
+                    <input
+                      className="w-4"
+                      name="size"
+                      type="radio"
+                      value={2.5}
+                      onClick={(e) => setSize(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center mr-2">
+                    <label className="mr-1">3kg</label>
+                    <input
+                      className="w-4"
+                      name="size"
+                      type="radio"
+                      value={3}
+                      onClick={(e) => setSize(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
-              <label className="text">Select Cake Size</label>
-              <div className="flex justify-between flex-wrap">
-                <div className="flex items-center mr-2">
-                  <label className="mr-1">0.5kg</label>
-                  <input
-                    className="w-4"
-                    name="size"
-                    type="radio"
-                    value={0.5}
-                    onClick={(e) => setSize(e.target.value)}
-                  />
-                </div>
-                <div className="flex items-center mr-2">
-                  <label className="mr-1">1kg</label>
-                  <input
-                    className="w-4"
-                    name="size"
-                    type="radio"
-                    value={1}
-                    onClick={(e) => setSize(e.target.value)}
-                  />
-                </div>
-                <div className="flex items-center mr-2">
-                  <label className="mr-1">1.5kg</label>
-                  <input
-                    className="w-4"
-                    name="size"
-                    type="radio"
-                    value={1.5}
-                    onClick={(e) => setSize(e.target.value)}
-                  />
-                </div>
-                <div className="flex items-center mr-2">
-                  <label className="mr-1">2kg</label>
-                  <input
-                    className="w-4"
-                    name="size"
-                    type="radio"
-                    value={2}
-                    onClick={(e) => setSize(e.target.value)}
-                  />
-                </div>
-                <div className="flex items-center mr-2">
-                  <label className="mr-1">2.5kg</label>
-                  <input
-                    className="w-4"
-                    name="size"
-                    type="radio"
-                    value={2.5}
-                    onClick={(e) => setSize(e.target.value)}
-                  />
-                </div>
-                <div className="flex items-center mr-2">
-                  <label className="mr-1">3kg</label>
-                  <input
-                    className="w-4"
-                    name="size"
-                    type="radio"
-                    value={3}
-                    onClick={(e) => setSize(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
+            
           )}
         </div>
 
         {size && (
-          <div className="order-details flex flex-col sm:items-center">
-            <p className="text">Please fill in the form below to process your order</p>
+          <div className="order-details flex flex-col sm:items-center bg-stone-900 p-3">
+            <p className="text-2xl text-white">
+              Please fill in the form below to process your order
+            </p>
             <div className="flex flex-col items-start md:items-center my-4">
               <label className="mr-2">Name</label>
               <input

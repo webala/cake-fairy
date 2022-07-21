@@ -77,6 +77,11 @@ textarea {
 
 .order-details {
   margin-top: 100px;
+  border-radius: 16px;
+}
+
+.order .cart {
+  border-radius: 16px;;
 }
 
 .dashboard .order-details, 
