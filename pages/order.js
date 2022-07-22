@@ -1,8 +1,7 @@
-import Link from "next/link";
 import Menu from "../components/Menu";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import { createOrder } from "../store/orderSlice";
 
 // import { PrismaClient } from '@prisma/client'
@@ -108,19 +107,20 @@ export default function Order(props) {
       },
     };
 
-    const response = await fetch("/api/order", {
-      method: "POST",
-      body: JSON.stringify(order),
-    });
+    // const response = await fetch("/api/order", {
+    //   method: "POST",
+    //   body: JSON.stringify(order),
+    // });
 
-    if (!response.ok) {
-      console.log(response.statusText);
-      throw new Error(response.statusText);
-    }
+    // if (!response.ok) {
+    //   console.log(response.statusText);
+    //   throw new Error(response.statusText);
+    // }
 
     dispatch(createOrder(order));
+    router.push('/process-order')
 
-    return await response.json();
+    // return await response.json();
   };
 
   return (
@@ -348,7 +348,7 @@ export default function Order(props) {
             </div>
             <div>
               <button type="submit" className="rounded-md p-3 bg-orange-900">
-                <Link href="/process-order">Process order</Link>
+               Process order
               </button>
             </div>
           </div>

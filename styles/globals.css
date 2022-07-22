@@ -75,7 +75,7 @@ textarea {
   margin: 100px 0;
 }
 
-.order-details {
+.order-details-form .order-details {
   margin-top: 100px;
   border-radius: 16px;
 }
@@ -84,9 +84,9 @@ textarea {
   border-radius: 16px;;
 }
 
-.dashboard .order-details, 
-.dashboard .client-details, 
-.dashboard .order-item {
+.order-details, 
+.client-details, 
+.order-item {
   margin: 16px 0;
 }
 
