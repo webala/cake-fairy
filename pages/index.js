@@ -26,9 +26,9 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props) {
-  console.log("props: ", props);
   const [categories, setCategories] = useState(props.categories);
-  const [flavours, setFlavours] = useState(props.flavours);
+  
+  
 
   return (
     <div className="main">

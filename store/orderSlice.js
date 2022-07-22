@@ -16,6 +16,9 @@ const orderSlice = createSlice({
       state.delivery = payload.delivery;
       state.order_item = payload.order_item.create[0];
       state.order_item_add_ons = payload.order_item_add_ons.create;
+      state.deposit_paid = false
+      state.picked = false
+      state.complete = false
     },
   },
 });

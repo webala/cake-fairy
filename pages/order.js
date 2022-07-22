@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Menu from "../components/Menu";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -26,7 +27,6 @@ export async function getServerSideProps() {
 
 export default function Order(props) {
   const [categories, setCategories] = useState(props.categories);
-  const [flavours, setFlavours] = useState(categories.flavour);
   const [flavorsSelected, setFlavoursSelected] = useState();
   const [size, setSize] = useState();
   const [clientName, setClientName] = useState();
@@ -42,9 +42,7 @@ export default function Order(props) {
   const pathname = router.pathname;
   // console.log("flaovursSelected:", flavorsSelected)
 
-  const order = useSelector((state) => state.order);
   const dispatch = useDispatch();
-  console.log("order: ", order);
 
   const handleAddOnsChange = (e) => {
     const value = e.target.value;
@@ -59,10 +57,9 @@ export default function Order(props) {
 
   const processOrder = async (e) => {
     e.preventDefault();
-    console.log("flavoursSelected: ", flavorsSelected);
     const categoryId = flavorsSelected.categoryId;
     const category = categories.find((category) => category.id === categoryId);
-    console.log(category.one);
+    
     let order_total;
     let add_ons = [];
 
@@ -71,7 +68,7 @@ export default function Order(props) {
       add_ons.push(obj);
     }
 
-    console.log("add on ids", add_ons);
+    
 
     if (size == 0.5) {
       order_total = category.pfive;
@@ -84,10 +81,10 @@ export default function Order(props) {
     } else if (size == 2.5) {
       order_total = category.twopfive;
     } else if (size == 3) {
-      order_total = category.threepfive;
+      order_total = category.three;
     }
 
-    console.log("order total: ", order_total);
+  
 
     const order = {
       client_name: clientName,
@@ -351,7 +348,7 @@ export default function Order(props) {
             </div>
             <div>
               <button type="submit" className="rounded-md p-3 bg-orange-900">
-                Process order
+                <Link href="/process-order">Process order</Link>
               </button>
             </div>
           </div>
