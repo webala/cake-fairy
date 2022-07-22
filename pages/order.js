@@ -1,7 +1,8 @@
 import Menu from "../components/Menu";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { AiOutlineClose } from "react-icons/ai";
+import { useSelector, useDispatch } from "react-redux";
+import { createOrder } from "../store/orderSlice";
 
 // import { PrismaClient } from '@prisma/client'
 
@@ -23,14 +24,6 @@ export async function getServerSideProps() {
   };
 }
 
-// export async function saveOrder (order) {
-//   const saveOrder = prisma.order.create({
-//     data: order,
-//     include: order_item
-//   })
-//   console.log(saveOrder)
-// }
-
 export default function Order(props) {
   const [categories, setCategories] = useState(props.categories);
   const [flavours, setFlavours] = useState(categories.flavour);
@@ -48,6 +41,10 @@ export default function Order(props) {
   const router = useRouter();
   const pathname = router.pathname;
   // console.log("flaovursSelected:", flavorsSelected)
+
+  const order = useSelector((state) => state.order);
+  const dispatch = useDispatch();
+  console.log("order: ", order);
 
   const handleAddOnsChange = (e) => {
     const value = e.target.value;
@@ -124,30 +121,10 @@ export default function Order(props) {
       throw new Error(response.statusText);
     }
 
+    dispatch(createOrder(order));
+
     return await response.json();
   };
-
-  // const handleSubmit = async () => {
-  //   const createOrder = await prisma.order.create({
-  //     data: {
-  //       client_name: clientName,
-  //       client_phone: phone,
-  //       collection_date: collectionDate,
-  //       collection_time: collectionTime,
-  //       order_total: 111,
-  //       delivery: delivery,
-  //       order_item: {
-  //         create: {
-  //           flavour_id: 1,
-  //           size: size,
-  //           wording: wording,
-  //           specifications: preferences,
-
-  //         }
-  //       }
-  //     }
-  //   })
-  // }
 
   return (
     <div className="order p-4">
@@ -167,82 +144,80 @@ export default function Order(props) {
       >
         <div className="cart flex flex-col sm:items-center bg-stone-900">
           {flavorsSelected && (
-            
-              <div className="my-4 p-2">
-                <div className="mb-5 ">
-                  <h1 className="heading">Cart</h1>
-                  <p className="text">
-                    You have selected{" "}
-                    <span className="text text-white">
-                      {flavorsSelected.flavourName}
-                    </span>
-                  </p>
+            <div className="my-4 p-2">
+              <div className="mb-5 ">
+                <h1 className="heading">Cart</h1>
+                <p className="text">
+                  You have selected{" "}
+                  <span className="text text-white">
+                    {flavorsSelected.flavourName}
+                  </span>
+                </p>
+              </div>
+              <label className="text">Select Cake Size</label>
+              <div className="flex justify-between flex-wrap">
+                <div className="flex items-center mr-2">
+                  <label className="mr-1">0.5kg</label>
+                  <input
+                    className="w-4"
+                    name="size"
+                    type="radio"
+                    value={0.5}
+                    onClick={(e) => setSize(e.target.value)}
+                  />
                 </div>
-                <label className="text">Select Cake Size</label>
-                <div className="flex justify-between flex-wrap">
-                  <div className="flex items-center mr-2">
-                    <label className="mr-1">0.5kg</label>
-                    <input
-                      className="w-4"
-                      name="size"
-                      type="radio"
-                      value={0.5}
-                      onClick={(e) => setSize(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex items-center mr-2">
-                    <label className="mr-1">1kg</label>
-                    <input
-                      className="w-4"
-                      name="size"
-                      type="radio"
-                      value={1}
-                      onClick={(e) => setSize(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex items-center mr-2">
-                    <label className="mr-1">1.5kg</label>
-                    <input
-                      className="w-4"
-                      name="size"
-                      type="radio"
-                      value={1.5}
-                      onClick={(e) => setSize(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex items-center mr-2">
-                    <label className="mr-1">2kg</label>
-                    <input
-                      className="w-4"
-                      name="size"
-                      type="radio"
-                      value={2}
-                      onClick={(e) => setSize(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex items-center mr-2">
-                    <label className="mr-1">2.5kg</label>
-                    <input
-                      className="w-4"
-                      name="size"
-                      type="radio"
-                      value={2.5}
-                      onClick={(e) => setSize(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex items-center mr-2">
-                    <label className="mr-1">3kg</label>
-                    <input
-                      className="w-4"
-                      name="size"
-                      type="radio"
-                      value={3}
-                      onClick={(e) => setSize(e.target.value)}
-                    />
-                  </div>
+                <div className="flex items-center mr-2">
+                  <label className="mr-1">1kg</label>
+                  <input
+                    className="w-4"
+                    name="size"
+                    type="radio"
+                    value={1}
+                    onClick={(e) => setSize(e.target.value)}
+                  />
+                </div>
+                <div className="flex items-center mr-2">
+                  <label className="mr-1">1.5kg</label>
+                  <input
+                    className="w-4"
+                    name="size"
+                    type="radio"
+                    value={1.5}
+                    onClick={(e) => setSize(e.target.value)}
+                  />
+                </div>
+                <div className="flex items-center mr-2">
+                  <label className="mr-1">2kg</label>
+                  <input
+                    className="w-4"
+                    name="size"
+                    type="radio"
+                    value={2}
+                    onClick={(e) => setSize(e.target.value)}
+                  />
+                </div>
+                <div className="flex items-center mr-2">
+                  <label className="mr-1">2.5kg</label>
+                  <input
+                    className="w-4"
+                    name="size"
+                    type="radio"
+                    value={2.5}
+                    onClick={(e) => setSize(e.target.value)}
+                  />
+                </div>
+                <div className="flex items-center mr-2">
+                  <label className="mr-1">3kg</label>
+                  <input
+                    className="w-4"
+                    name="size"
+                    type="radio"
+                    value={3}
+                    onClick={(e) => setSize(e.target.value)}
+                  />
                 </div>
               </div>
-            
+            </div>
           )}
         </div>
 

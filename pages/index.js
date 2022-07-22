@@ -18,7 +18,6 @@ export async function getServerSideProps() {
       flavour: true,
     },
   });
-  console.log("categories", categories);
   return {
     props: {
       categories: categories,
