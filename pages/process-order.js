@@ -27,7 +27,7 @@ function ProcessOrder(props) {
 
   const handleDarajaPush = (e) => {
     e.preventDefault();
-    inititateStkPush()
+    inititateStkPush(clientPhone, order.order_total)
   };
 
   console.log("flavour: ", flavour);

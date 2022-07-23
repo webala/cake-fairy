@@ -8,8 +8,7 @@ export default async function handler(req, res) {
   let buffer = new Buffer.from(consumer_key+":"+consumer_secret)
   let auth = `Basic ${buffer.toString('base64')}`
 
-  console.log('auth: ', auth)
-  console.log('calling handler')
+  
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -22,10 +21,10 @@ export default async function handler(req, res) {
         },
       });
 
-      console.log('response data: ',response.data)
-      return response.data
+      return res.status(200).json({access_token: response.data.access_token})
 
   } catch(error) {
     console.log('error: ',error)
+    return res.status(400).json({message: 'Something went wrong'})
   }
 }
