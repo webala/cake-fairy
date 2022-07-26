@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import OrderItem from "../components/OrderItem";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import prisma from "../lib/prisma";
 import inititateStkPush from "../daraja";
+import Link from "next/link";
 
 export async function getServerSideProps() {
   const flavours = await prisma.flavour.findMany();
@@ -14,23 +15,27 @@ export async function getServerSideProps() {
 }
 
 function ProcessOrder(props) {
+
+  
   const order = useSelector((state) => state.order);
   const order_item = order.order_item;
-//   const collection_date = order.collection_date.toString().slice(4, 16);
-  console.log(order)
+  //   const collection_date = order.collection_date.toString().slice(4, 16);
+  console.log(order);
   const deposit = order.order_total / 2;
   console.log("order: ", order);
   const [flavours, setFlavours] = useState(props.flavours);
-  const [clientPhone, setClientPhone] = useState(order.client_phone)
+  const [clientPhone, setClientPhone] = useState(order.client_phone);
   const flavourId = order.order_item.flavour_id;
   const flavour = flavours.find((flavour) => flavour.id == flavourId);
 
   const handleDarajaPush = (e) => {
     e.preventDefault();
-    inititateStkPush(clientPhone, order.order_total)
+    inititateStkPush(clientPhone, deposit);
   };
 
   console.log("flavour: ", flavour);
+
+  
   return (
     <div className="process-order p-4">
       <div className="order-summary">
@@ -83,7 +88,7 @@ function ProcessOrder(props) {
           A push notification will be sent to your phone. Enter your password to
           complete payment.
         </p>
-        <form onClick={handleDarajaPush} className='my-10'>
+        <form onClick={handleDarajaPush} className="my-10">
           <div>
             <label>M-Pesa number</label>
             <input
