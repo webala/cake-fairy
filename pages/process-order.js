@@ -15,8 +15,6 @@ export async function getServerSideProps() {
 }
 
 function ProcessOrder(props) {
-
-  
   const order = useSelector((state) => state.order);
   const order_item = order.order_item;
   //   const collection_date = order.collection_date.toString().slice(4, 16);
@@ -25,17 +23,21 @@ function ProcessOrder(props) {
   console.log("order: ", order);
   const [flavours, setFlavours] = useState(props.flavours);
   const [clientPhone, setClientPhone] = useState(order.client_phone);
+  const [paymentInitiated, setPaymentInitiated] = useState(false);
   const flavourId = order.order_item.flavour_id;
   const flavour = flavours.find((flavour) => flavour.id == flavourId);
 
   const handleDarajaPush = (e) => {
     e.preventDefault();
-    inititateStkPush(clientPhone, deposit);
+    const response = inititateStkPush(clientPhone, deposit).json();
+    console.log('response:', response)
+    if (response.ResponseCode == 0) {
+      setPaymentInitiated(true);
+    }
   };
 
   console.log("flavour: ", flavour);
 
-  
   return (
     <div className="process-order p-4">
       <div className="order-summary">
@@ -85,7 +87,7 @@ function ProcessOrder(props) {
           picked. Please confirm your M-Pesa number below.
         </p>
         <p>
-          A push notification will be sent to your phone. Enter your password to
+          A push notification will be sent to your phone. Enter your pin to
           complete payment.
         </p>
         <form onClick={handleDarajaPush} className="my-10">
@@ -103,6 +105,16 @@ function ProcessOrder(props) {
           </button>
         </form>
       </div>
+      {paymentInitiated && (
+        <div>
+          <p className="text-red-900">
+            Please complete the transaction by entering your m-pesa pin before you proceed
+          </p>
+          <Link>
+            <button className="rounded-md p-2 bg-orange-900 my-5">All Done</button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

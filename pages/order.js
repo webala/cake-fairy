@@ -238,7 +238,7 @@ export default function Order(props) {
               <input
                 name="phone"
                 type="text"
-                placeholder="0700000000"
+                placeholder="254700000000"
                 required
                 onChange={(e) => setPhone(e.target.value)}
               />
