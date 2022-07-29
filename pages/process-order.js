@@ -27,9 +27,9 @@ function ProcessOrder(props) {
   const flavourId = order.order_item.flavour_id;
   const flavour = flavours.find((flavour) => flavour.id == flavourId);
 
-  const handleDarajaPush = (e) => {
+  const handleDarajaPush = async (e) => {
     e.preventDefault();
-    const response = inititateStkPush(clientPhone, deposit).json();
+    const response = await inititateStkPush(clientPhone, deposit);
     console.log('response:', response)
     if (response.ResponseCode == 0) {
       setPaymentInitiated(true);
@@ -110,7 +110,7 @@ function ProcessOrder(props) {
           <p className="text-red-900">
             Please complete the transaction by entering your m-pesa pin before you proceed
           </p>
-          <Link>
+          <Link href='/confirm-order'>
             <button className="rounded-md p-2 bg-orange-900 my-5">All Done</button>
           </Link>
         </div>

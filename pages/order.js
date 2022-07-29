@@ -107,15 +107,7 @@ export default function Order(props) {
       },
     };
 
-    // const response = await fetch("/api/order", {
-    //   method: "POST",
-    //   body: JSON.stringify(order),
-    // });
-
-    // if (!response.ok) {
-    //   console.log(response.statusText);
-    //   throw new Error(response.statusText);
-    // }
+   
 
     dispatch(createOrder(order));
     router.push('/process-order')
