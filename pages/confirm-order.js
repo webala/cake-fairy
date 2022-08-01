@@ -28,6 +28,7 @@ export async function getServerSideProps({ req, res }) {
 
 function ConfirmOrder({ transactionDetails, order }) {
   const cookieOrder = JSON.parse(order);
+  console.log("cookie order: ", cookieOrder);
   console.log(transactionDetails);
   const [clientPhone, setClientPhone] = useState(cookieOrder.client_phone);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
@@ -35,25 +36,46 @@ function ConfirmOrder({ transactionDetails, order }) {
 
   const router = useRouter();
 
-  // const response = await fetch("/api/order", {
-  //   method: "POST",
-  //   body: JSON.stringify(order),
-  // });
-
-  // if (!response.ok) {
-  //   console.log(response.statusText);
-  //   throw new Error(response.statusText);
-  // }
-
-  const confirmTransaction = () => {
+  const confirmTransaction = async () => {
     const transaction = transactionDetails.find(
       (transaction) => transaction.phone_number == clientPhone
     );
     if (transaction) {
       setOrderConfirmed(true);
+      let response = await fetch("/api/order", {
+        method: "POST",
+        body: JSON.stringify(cookieOrder),
+      });
+
+      const savedOrder = await response.json();
+      console.log("id:", savedOrder.id);
+      if (!response.ok) {
+        console.log(response.statusText);
+        throw new Error(response.statusText);
+      }
+
+      const data = {
+        transactionId: transaction.id,
+        transactionData: {
+          order_id: savedOrder.id,
+        },
+      };
+      response = await fetch("/api/transactionUpdate", {
+        method: "PATCH",
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        console.log(response.statusText);
+        throw new Error(response.statusText);
+      }
+
+      const updatedTransaction = await response.json();
+      console.log("updated transaction: ", updatedTransaction);
     }
     return transaction;
   };
+  console.log("transaction: ", transaction);
 
   useEffect(() => {
     let transaction = confirmTransaction();
@@ -68,7 +90,7 @@ function ConfirmOrder({ transactionDetails, order }) {
             <GiConfirmed className="mr-2 text-green-600" />
             <p>Transaction confirmed.</p>
           </div>
-          <div >
+          <div>
             <p>Recipt: {transaction.receipt_number}</p>
           </div>
         </div>
