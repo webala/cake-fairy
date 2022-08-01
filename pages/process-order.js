@@ -41,23 +41,7 @@ function ProcessOrder(props) {
     })
   );
 
-  // if (cookieOrder) {
-  //   //Set order using cookies in case browser is refreshed and state is lost
-  //   setOrder(cookieOrder);
-  //   setDeposit(cookieOrder.order_total / 2);
-  //   setOrder_item(cookieOrder.order_item.create[0]);
-  //   setFlavour(
-  //     flavours.find((flavour) => {
-  //       let flavourId = cookieOrder.order_item.create[0].flavour_id;
-  //       if (flavour.id == flavourId) {
-  //         return flavour;
-  //       }
-  //     })
-  //   );
-  // } else {
-  //   //set order form redux store
-  //   setOrder(storeOrder);
-  // }
+  
 
   const collection_date = order.collection_date.toString().slice(0, 9);
 
