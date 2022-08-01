@@ -1,12 +1,11 @@
 import Menu from "../components/Menu";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createOrder } from "../store/orderSlice";
+import { setCookie } from "cookies-next";
 
-// import { PrismaClient } from '@prisma/client'
 
-// const prisma = new PrismaClient()
 
 import prisma from "../lib/prisma";
 
@@ -37,6 +36,9 @@ export default function Order(props) {
   const [preferences, setPreferences] = useState();
   const [addOns, setAddOns] = useState([]);
 
+  //Create cookies to store order
+
+
   const router = useRouter();
   const pathname = router.pathname;
   // console.log("flaovursSelected:", flavorsSelected)
@@ -58,7 +60,7 @@ export default function Order(props) {
     e.preventDefault();
     const categoryId = flavorsSelected.categoryId;
     const category = categories.find((category) => category.id === categoryId);
-    
+
     let order_total;
     let add_ons = [];
 
@@ -66,8 +68,6 @@ export default function Order(props) {
       let obj = { add_on_id: parseInt(addOns[i]) };
       add_ons.push(obj);
     }
-
-    
 
     if (size == 0.5) {
       order_total = category.pfive;
@@ -82,8 +82,6 @@ export default function Order(props) {
     } else if (size == 3) {
       order_total = category.three;
     }
-
-  
 
     const order = {
       client_name: clientName,
@@ -107,10 +105,13 @@ export default function Order(props) {
       },
     };
 
-   
+    //set order cookie
+
+    setCookie('order', order, {maxAge: 60 * 60 *48, path: '/'})
+    
 
     dispatch(createOrder(order));
-    router.push('/process-order')
+    router.push("/process-order");
 
     // return await response.json();
   };
@@ -340,7 +341,7 @@ export default function Order(props) {
             </div>
             <div>
               <button type="submit" className="rounded-md p-3 bg-orange-900">
-               Process order
+                Process order
               </button>
             </div>
           </div>

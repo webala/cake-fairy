@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
 import prisma from "../lib/prisma";
 import { useState, useEffect } from "react";
+import { getCookie } from "cookies-next";
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }) {
   const transactionDetails = await prisma.transaction_details.findMany();
 
   transactionDetails.map((transaction) => {
@@ -11,30 +12,36 @@ export async function getServerSideProps() {
     return transaction;
   });
 
+  //get order from cookies in case browser is refreshed
+  const order = getCookie("order", { req, res });
   return {
     props: {
       transactionDetails,
+      order
     },
   };
 }
 
+export async function getInitialProps() {}
+
 function ConfirmOrder({ transactionDetails }) {
+  const [orderCookie, setOrderCookie] = useCookies(["order"]);
   console.log(transactionDetails);
-  const order = useSelector((state) => state.order);
+  const order = orderCookie.order;
   console.log("order: ", order);
   const phone = order.client_phone;
   console.log("phone: ", phone);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
 
-   // const response = await fetch("/api/order", {
-    //   method: "POST",
-    //   body: JSON.stringify(order),
-    // });
+  // const response = await fetch("/api/order", {
+  //   method: "POST",
+  //   body: JSON.stringify(order),
+  // });
 
-    // if (!response.ok) {
-    //   console.log(response.statusText);
-    //   throw new Error(response.statusText);
-    // }
+  // if (!response.ok) {
+  //   console.log(response.statusText);
+  //   throw new Error(response.statusText);
+  // }
 
   const confirmTransaction = () => {
     const transaction = transactionDetails.find(
