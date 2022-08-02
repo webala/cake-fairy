@@ -15,7 +15,7 @@ function Testify() {
     };
     const response = await fetch("/api/comment", {
       method: "POST",
-      body: body,
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
