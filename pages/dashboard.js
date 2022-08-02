@@ -3,6 +3,7 @@ import { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import OrderItem from "../components/OrderItem";
 import Orders from "../components/Orders";
+import ClientStories from "../components/ClientStories";
 
 export async function getServerSideProps() {
   const orders = await prisma.order.findMany({
@@ -37,6 +38,7 @@ export async function getServerSideProps() {
 
 export default function Dashboard(props) {
   const [orders, setOrders] = useState(props.orders);
+  const [clientStories, setClientStories] = useState(props.clientStories);
   const [completeOrders, setCompleteOrders] = useState(
     orders.filter((order) => order.complete == true)
   );
@@ -67,6 +69,24 @@ export default function Dashboard(props) {
     return await response.json();
   };
 
+  const updateStory = async (storyId, storyData) => {
+    const body = {
+      storyId,
+      storyData,
+    };
+
+    const response = await fetch("/api/comment", {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      console.log("status text: ", response.statusText);
+      throw new Error(response.statusText);
+    }
+
+    return await response.json();
+  };
+
   if (!session) {
     return (
       <div className="absolute inset-1/4 w-96">
@@ -84,8 +104,8 @@ export default function Dashboard(props) {
       <div className="flex flex-col items-center w-full">
         <h1 className="heading">Chefs Panel</h1>
         <div className="flex items-center justify-evenly w-full">
-          <button onClick={() => setPage('order')}>Orders</button>
-          <button>Client stories</button>
+          <button onClick={() => setPage("order")}>Orders</button>
+          <button onClick={() => setPage("stories")}>Client stories</button>
           <button>Rransaction records</button>
           <button onClick={() => signOut()}>Sign Out</button>
         </div>
@@ -95,6 +115,12 @@ export default function Dashboard(props) {
             completeOrders={completeOrders}
             flavours={flavours}
             updateOrder={updateOrder}
+          />
+        )}
+        {page === "stories" && (
+          <ClientStories
+            clientStories={clientStories}
+            updateStory={updateStory}
           />
         )}
       </div>
