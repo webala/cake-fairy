@@ -4,6 +4,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import OrderItem from "../components/OrderItem";
 import Orders from "../components/Orders";
 import ClientStories from "../components/ClientStories";
+import Transactions from "../components/Transactions";
 
 export async function getServerSideProps() {
   const orders = await prisma.order.findMany({
@@ -22,12 +23,13 @@ export async function getServerSideProps() {
   });
 
   const clientStories = await prisma.client_stories.findMany();
-
+  const transactions = await prisma.transaction_details.findMany();
   return {
     props: {
       orders,
       flavours,
       clientStories,
+      transactions,
     },
   };
 }
@@ -35,6 +37,7 @@ export async function getServerSideProps() {
 export default function Dashboard(props) {
   const [orders, setOrders] = useState(props.orders);
   const [clientStories, setClientStories] = useState(props.clientStories);
+  const [transactions, setTransactions] = useState(props.transactions);
   const [completeOrders, setCompleteOrders] = useState(
     orders.filter((order) => order.complete == true)
   );
@@ -101,10 +104,42 @@ export default function Dashboard(props) {
       <div className="flex flex-col items-center w-full">
         <h1 className="heading">Chefs Panel</h1>
         <div className="flex items-center justify-evenly w-full">
-          <button onClick={() => setPage("order")}>Orders</button>
-          <button onClick={() => setPage("stories")}>Client stories</button>
-          <button onClick={() => setPage('transactions')}>Transaction records</button>
-          <button onClick={() => signOut()}>Sign Out</button>
+          <button
+            className={
+              page === "order"
+                ? "underline underline-offset-8"
+                : "hover:underline underline-offset-8 transition ease-in duration-300"
+            }
+            onClick={() => setPage("order")}
+          >
+            Orders
+          </button>
+          <button
+            className={
+              page === "stories"
+                ? "underline underline-offset-8"
+                : "hover:underline underline-offset-8 transition ease-in duration-300"
+            }
+            onClick={() => setPage("stories")}
+          >
+            Client stories
+          </button>
+          <button
+            className={
+              page === "transactions"
+                ? "underline underline-offset-8"
+                : "hover:underline underline-offset-8 transition ease-in duration-300"
+            }
+            onClick={() => setPage("transactions")}
+          >
+            Transaction records
+          </button>
+          <button
+            className="hover:underline underline-offset-8"
+            onClick={() => signOut()}
+          >
+            Sign Out
+          </button>
         </div>
         {page === "order" && (
           <Orders
@@ -119,6 +154,9 @@ export default function Dashboard(props) {
             clientStories={clientStories}
             updateStory={updateStory}
           />
+        )}
+        {page === "transactions" && (
+          <Transactions transactions={transactions} />
         )}
       </div>
     );

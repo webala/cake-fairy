@@ -18,18 +18,23 @@ export async function getServerSideProps() {
       flavour: true,
     },
   });
+
+  const clientStories = await prisma.client_stories.findMany({
+    where: {
+      approved: true,
+    },
+  });
   return {
     props: {
-      categories: categories,
+      categories,
+      clientStories
     },
   };
 }
 
 export default function Home(props) {
   const [categories, setCategories] = useState(props.categories);
-  
-  
-
+  const [clientStories, setClientStories] = useState(props.clientStories)
   return (
     <div className="main">
       <Head>
@@ -40,9 +45,9 @@ export default function Home(props) {
       <Header />
       <Landing />
       <Services />
-      <Menu categories={categories}/>
+      <Menu categories={categories} />
       <About />
-      <Testimonials />
+      <Testimonials clientStories={clientStories}/>
       <Footer />
     </div>
   );
