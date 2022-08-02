@@ -25,6 +25,9 @@ function Testify() {
 
     const resData = await response.json();
     console.log("res data: ", resData);
+    setName("");
+    setRating(0);
+    setComment("");
   };
   return (
     <div className="py-10">
@@ -38,14 +41,16 @@ function Testify() {
             <input
               className="rounded h-10 m-5 w-1/2 text-black"
               type="text"
-              onChange={(e) => setComment(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               required
+              value={name}
             />
             <textarea
               className="rounded h-20 sm:h-40 m-5 w-full text-black"
               type="text"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setComment(e.target.value)}
               required
+              value={comment}
             />
             <StarRating rating={rating} setRating={setRating} />
             <button

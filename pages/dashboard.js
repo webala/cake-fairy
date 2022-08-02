@@ -2,6 +2,7 @@ import prisma from "../lib/prisma";
 import { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import OrderItem from "../components/OrderItem";
+import Orders from "../components/Orders";
 
 export async function getServerSideProps() {
   const orders = await prisma.order.findMany({
@@ -19,10 +20,17 @@ export async function getServerSideProps() {
     return order;
   });
 
+  const clientStories = await prisma.client_stories.findMany({
+    where: {
+      approved: false,
+    },
+  });
+
   return {
     props: {
       orders,
       flavours,
+      clientStories,
     },
   };
 }
@@ -37,6 +45,7 @@ export default function Dashboard(props) {
   );
 
   const [flavours, setFlavours] = useState(props.flavours);
+  const [page, setPage] = useState("order");
 
   const { data: session } = useSession();
 
@@ -62,63 +71,32 @@ export default function Dashboard(props) {
     return (
       <div className="absolute inset-1/4 w-96">
         <p>You have to sign in to access this page</p>
-        <button className="rounded-md p-3 bg-orange-900" onClick={() => signIn()}>Sign In</button>
+        <button
+          className="rounded-md p-3 bg-orange-900"
+          onClick={() => signIn()}
+        >
+          Sign In
+        </button>
       </div>
     );
   } else {
     return (
-      <div className="flex flex-col items-center">
-        <div className="flex items-center">
-          <h1 className="heading">Chefs Panel</h1>
-          <div>
-            <button onClick={() => signOut()}>Sign Out</button>
-          </div>
+      <div className="flex flex-col items-center w-full">
+        <h1 className="heading">Chefs Panel</h1>
+        <div className="flex items-center justify-evenly w-full">
+          <button onClick={() => setPage('order')}>Orders</button>
+          <button>Client stories</button>
+          <button>Rransaction records</button>
+          <button onClick={() => signOut()}>Sign Out</button>
         </div>
-       
-
-
-        <div className="dashboard p-2 flex flex-col sm:flex-row justify-evenly">
-          <div>
-            <h1 className="heading">New Orders</h1>
-            <div className="new-orders md:grid grid-cols-2 gap-3">
-              {newOrders.map((order, index) => {
-                return (
-                  <div key={index}>
-                    {!order.complete && (
-                      <OrderItem
-                        order={order}
-                        flavours={flavours}
-                        section="incomplete-orders"
-                        updateOrder={updateOrder}
-                      />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <div>
-              <h1 className="heading">Complete Orders</h1>
-              <div className="complete-orders md:grid grid-cols-2 gap-3">
-                {completeOrders.map((order, index) => {
-                  return (
-                    <div key={index}>
-                      {order.complete && (
-                        <OrderItem
-                          order={order}
-                          flavours={flavours}
-                          section="complete-orders"
-                          updateOrder={updateOrder}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
+        {page === "order" && (
+          <Orders
+            newOrders={newOrders}
+            completeOrders={completeOrders}
+            flavours={flavours}
+            updateOrder={updateOrder}
+          />
+        )}
       </div>
     );
   }
