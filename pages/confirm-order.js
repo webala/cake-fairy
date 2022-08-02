@@ -77,9 +77,12 @@ function ConfirmOrder({ transactionDetails, order }) {
   };
   console.log("transaction: ", transaction);
 
-  useEffect(() => {
-    let transaction = confirmTransaction();
-    setTransaction(transaction);
+  useEffect( () => {
+    const getTransaction = async () => {
+      let transaction = await confirmTransaction();
+      return transaction
+    }
+    setTransaction(getTransaction());
   }, []);
 
   return (

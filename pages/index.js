@@ -40,7 +40,7 @@ export default function Home(props) {
       <Header />
       <Landing />
       <Services />
-      <Menu categories={categories} className="" />
+      <Menu categories={categories}/>
       <About />
       <Testimonials />
       <Footer />

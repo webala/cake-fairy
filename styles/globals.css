@@ -39,6 +39,9 @@ textarea {
   font-size: 1.9em;
 }
 
+.landing {
+  margin: 0px 0 50px 0;
+}
 .landing .text {
   font-size: 1.5em;
 }
@@ -106,6 +109,17 @@ textarea {
   font-size: 1.5em;
   transition: 0.3s ease;
 }
+
+.star-rating .on {
+  color: var(--text-primary);
+  transition: 0.3s ease;
+}
+
+.star-rating .off {
+  color: white;
+  transition: 0.3s ease;
+}
+
 @media screen and (min-width: 640px) {
   .landing .text {
     font-size: 1.5em;

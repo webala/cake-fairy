@@ -79,3 +79,11 @@ model transaction_details {
   amount           Int
   order            order?   @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
+
+model client_stories {
+  id       Int      @id @default(autoincrement())
+  name     String   @db.VarChar
+  comment  String   @db.VarChar
+  rating   Int
+  approved Boolean? @default(false)
+}
