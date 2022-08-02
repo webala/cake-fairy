@@ -3,10 +3,10 @@ import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { MdOutlineStarRate } from "react-icons/md";
 
 function ClientStory({ story, updateStory }) {
+  const [approved, setApproved] = useState(story.approved);
 
-    const [approved, setApproved] = useState(story.approved)
   return (
-    <tr key={story.id}>
+    <tr>
       <td className="py-4 px-6 text-white">{story.name}</td>
       <td className="py-4 px-6">{story.comment}</td>
       <td className="py-4 px-6">
@@ -21,10 +21,10 @@ function ClientStory({ story, updateStory }) {
           <BsToggleOn
             className="icon cursor-pointer"
             onClick={async () => {
-              setOrderpicked(!orderPicked);
-              const orderData = { picked: !orderPicked };
-              const orderId = order.id;
-              await updateOrder(orderId, orderData);
+              setApproved(!approved);
+              const storyData = { approved: !story.approved };
+              const storyId = story.id;
+              await updateStory(storyId, storyData);
             }}
           />
         )}
@@ -32,10 +32,10 @@ function ClientStory({ story, updateStory }) {
           <BsToggleOff
             className="icon cursor-pointer"
             onClick={async () => {
-              setOrderpicked(!orderPicked);
-              const orderData = { picked: !orderPicked };
-              const orderId = order.id;
-              await updateOrder(orderId, orderData);
+              setApproved(!approved);
+              const storyData = { approved: !story.approved };
+              const storyId = story.id;
+              await updateStory(storyId, storyData);
             }}
           />
         )}

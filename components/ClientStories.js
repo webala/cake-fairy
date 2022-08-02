@@ -1,6 +1,3 @@
-import React from "react";
-import { BsToggleOff, BsToggleOn } from "react-icons/bs";
-import { MdOutlineStarRate } from "react-icons/md";
 import ClientStory from "./ClientStory";
 
 function ClientStories({ clientStories, updateStory }) {
@@ -17,7 +14,13 @@ function ClientStories({ clientStories, updateStory }) {
         </thead>
         <tbody>
           {clientStories.map((story) => {
-            return <ClientStory story={story} key={story.id} updateStory={updateStory}/>;
+            return (
+              <ClientStory
+                story={story}
+                key={story.id}
+                updateStory={updateStory}
+              />
+            );
           })}
         </tbody>
       </table>

@@ -21,11 +21,7 @@ export async function getServerSideProps() {
     return order;
   });
 
-  const clientStories = await prisma.client_stories.findMany({
-    where: {
-      approved: false,
-    },
-  });
+  const clientStories = await prisma.client_stories.findMany();
 
   return {
     props: {
@@ -79,6 +75,7 @@ export default function Dashboard(props) {
       method: "PATCH",
       body: JSON.stringify(body),
     });
+
     if (!response.ok) {
       console.log("status text: ", response.statusText);
       throw new Error(response.statusText);
@@ -106,7 +103,7 @@ export default function Dashboard(props) {
         <div className="flex items-center justify-evenly w-full">
           <button onClick={() => setPage("order")}>Orders</button>
           <button onClick={() => setPage("stories")}>Client stories</button>
-          <button>Rransaction records</button>
+          <button onClick={() => setPage('transactions')}>Transaction records</button>
           <button onClick={() => signOut()}>Sign Out</button>
         </div>
         {page === "order" && (
