@@ -47,7 +47,7 @@ export default function Home(props) {
       <Services />
       <Menu categories={categories} />
       <About />
-      <Testimonials clientStories={clientStories}/>
+      <Testimonials clientStories={clientStories} setClientStories={setClientStories}/>
       <Footer />
     </div>
   );

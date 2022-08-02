@@ -41,9 +41,10 @@ function ProcessOrder(props) {
     })
   );
 
+  console.log('order:', cookieOrder)
   
 
-  const collection_date = order.collection_date.toString().slice(0, 9);
+  const collection_date = order.collection_date.toString().slice(0, 10);
 
   const handleDarajaPush = async (e) => {
     e.preventDefault();
@@ -53,6 +54,8 @@ function ProcessOrder(props) {
       setPaymentInitiated(true);
     }
   };
+
+  
 
   return (
     <div className="md:flex justify-center">

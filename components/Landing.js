@@ -10,20 +10,20 @@ import "swiper/css";
 function Landing() {
   return (
     <div className="landing flex flex-col overflow-x-hidden w-full">
-      <div className="flex flex-col justify-between items-center md:flex-row w-full">
-        <div className="flex flex-col">
-          <Image
+      <div className="flex flex-col justify-between items-center">
+        <div className="flex flex-col swiper items-center justify-between">
+          {/* <Image
             className="rounded-lg sm:w-3/6 border border-black "
             src={landingImage}
             layout="intrinsic"
             width={700}
             height={300}
-          />
+          /> */}
 
-          {/* <Swiper
-            spaceBetween={50}
+          <Swiper
+            spaceBetween={0}
             slidesPerView={1}
-            className="invisible sm:visible"
+            className="flex flex-col items-center"
           >
             <SwiperSlide>
               <Image
@@ -63,7 +63,7 @@ function Landing() {
             </SwiperSlide>
           </Swiper>
 
-          <MdOutlineSwipe className="" /> */}
+          <MdOutlineSwipe className="my-10 animate-ping text-xl" />
         </div>
         <h1 className="sm:m-7 md:w-5/6 text">
           Whether you love the simplicity of a banana or the taste of icing

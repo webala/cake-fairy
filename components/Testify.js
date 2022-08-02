@@ -23,6 +23,7 @@ function Testify() {
       throw new Error(response.statusText);
     }
 
+    
     const resData = await response.json();
     console.log("res data: ", resData);
     setName("");

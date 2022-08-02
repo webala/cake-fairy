@@ -5,8 +5,6 @@ import { useDispatch } from "react-redux";
 import { createOrder } from "../store/orderSlice";
 import { setCookie } from "cookies-next";
 
-
-
 import prisma from "../lib/prisma";
 
 export async function getServerSideProps() {
@@ -38,7 +36,6 @@ export default function Order(props) {
 
   //Create cookies to store order
 
-
   const router = useRouter();
   const pathname = router.pathname;
   // console.log("flaovursSelected:", flavorsSelected)
@@ -63,11 +60,7 @@ export default function Order(props) {
 
     let order_total;
     let add_ons = [];
-
-    for (let i = 0; i < addOns.length; i++) {
-      let obj = { add_on_id: parseInt(addOns[i]) };
-      add_ons.push(obj);
-    }
+    let phoneNo
 
     if (size == 0.5) {
       order_total = category.pfive;
@@ -83,9 +76,29 @@ export default function Order(props) {
       order_total = category.three;
     }
 
+    for (let i = 0; i < addOns.length; i++) {
+      let add_on_id = parseInt(addOns[i]);
+      let obj = { add_on_id };
+      if (add_on_id == 1) {
+        order_total += 300;
+      } else if (add_on_id == 2) {
+        order_total += 600;
+      } else if (add_on_id == 3) {
+        order_total += 50;
+      }
+      add_ons.push(obj);
+    }
+
+    if (phone[0] == '+') {
+      phoneNo = phone.slice(1)
+    } else if(phone[0] == '0'){
+      phoneNo = '254' + phone.slice(1)
+    }
+
+    console.log('phone: ', phoneNo)
     const order = {
       client_name: clientName,
-      client_phone: phone,
+      client_phone: phoneNo,
       collection_date: new Date(collectionDate),
       collection_time: collectionTime,
       order_total: order_total,
@@ -107,8 +120,7 @@ export default function Order(props) {
 
     //set order cookie
 
-    setCookie('order', order, {maxAge: 60 * 60 *48, path: '/'})
-    
+    setCookie("order", order, { maxAge: 60 * 60 * 48, path: "/" });
 
     dispatch(createOrder(order));
     router.push("/process-order");
@@ -130,13 +142,13 @@ export default function Order(props) {
         onSubmit={async (e) => {
           await processOrder(e);
         }}
-        className="order-details-form"
+        className="order-details-form flex flex-col items-center"
       >
-        <div className="cart flex flex-col sm:items-center bg-stone-900">
+        <div className="cart flex flex-col sm:items-center bg-stone-900 md:w-5/12">
           {flavorsSelected && (
-            <div className="my-4 p-2">
+            <div className="p-2">
               <div className="mb-5 ">
-                <h1 className="heading">Cart</h1>
+                <h1 className="heading">Your order</h1>
                 <p className="text">
                   You have selected{" "}
                   <span className="text text-white">
@@ -212,11 +224,11 @@ export default function Order(props) {
         </div>
 
         {size && (
-          <div className="order-details flex flex-col sm:items-center bg-stone-900 p-3">
+          <div className="order-details flex flex-col bg-stone-900 p-3">
             <p className="text-2xl text-white">
               Please fill in the form below to process your order
             </p>
-            <div className="flex flex-col items-start md:items-center my-4">
+            <div className="flex flex-col items-start  my-4">
               <label className="mr-2">Name</label>
               <input
                 name="name"
@@ -226,7 +238,7 @@ export default function Order(props) {
                 onChange={(e) => setClientName(e.target.value)}
               />
             </div>
-            <div className="flex flex-col items-start md:items-center my-4">
+            <div className="flex flex-col items-start my-4">
               <label className="mr-2">Phone</label>
               <input
                 name="phone"
@@ -236,7 +248,7 @@ export default function Order(props) {
                 onChange={(e) => setPhone(e.target.value)}
               />
             </div>
-            <div className="flex flex-col items-start md:items-center my-4">
+            <div className="flex flex-col items-start my-4">
               <label className="mr-2">
                 Would you like your cake delivered?
               </label>
@@ -263,7 +275,7 @@ export default function Order(props) {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start md:items-center my-4">
+            <div className="flex flex-col items-start my-4">
               <label className="mr-2">Pickup or delivery date</label>
               <input
                 name="date"
@@ -272,7 +284,7 @@ export default function Order(props) {
                 onChange={(e) => setCollectionDate(e.target.value)}
               />
             </div>
-            <div className="flex flex-col items-start md:items-center my-4">
+            <div className="flex flex-col items-start my-4">
               <label className="mr-2">Time of delivery or collection</label>
               <input
                 name="time"
@@ -282,7 +294,7 @@ export default function Order(props) {
                 onChange={(e) => setCollectionTime(e.target.value)}
               />
             </div>
-            <div className="flex flex-col items-start md:items-center my-4">
+            <div className="flex flex-col items-start my-4">
               <label className="mr-2">
                 Wording on Cake(Not more than 25 characters)
               </label>
@@ -294,7 +306,7 @@ export default function Order(props) {
                 onChange={(e) => setWording(e.target.value)}
               />
             </div>
-            <div className="flex flex-col items-start md:items-center my-4">
+            <div className="flex flex-col items-start my-4">
               <label className="mr-2">
                 Do you have any other preferences? eg color, decorations
               </label>
@@ -306,7 +318,7 @@ export default function Order(props) {
                 onChange={(e) => setPreferences(e.target.value)}
               />
             </div>
-            <div className="flex flex-col items-start sm:items-center my-4">
+            <div className="flex flex-col items-start my-4">
               <label className="mr-2">Would you like some add-ons?</label>
               <div className="flex items-center">
                 <label className="mx-2">Cake toppers @300</label>

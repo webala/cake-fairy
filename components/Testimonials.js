@@ -10,7 +10,7 @@ function Testimonials({clientStories}) {
               return <TestimonyItem name={story.name} testimony={story.comment} rating={story.rating} key={index}/>
             })}
         </div>
-        <Testify />
+        <Testify clientStories={clientStories} />
     </div>
 
   )
