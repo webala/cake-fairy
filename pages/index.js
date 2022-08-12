@@ -2,7 +2,6 @@ import { useState } from "react";
 import Head from "next/head";
 import About from "../components/About";
 import Header from "../components/Header";
-import Landing from "../components/Landing";
 import Menu from "../components/Menu";
 import Services from "../components/Services";
 import Footer from "../components/Footer";
@@ -43,7 +42,6 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {/* <Landing /> */}
       <Services />
       <Menu categories={categories} />
       <About />

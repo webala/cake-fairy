@@ -3,9 +3,9 @@ import TestimonyItem from "./TestimonyItem"
 
 function Testimonials({clientStories}) {
   return (
-    <div className="testimonials">
+    <div className="testimonials px-4 md:px-20 xl:px-44">
         <h1 className="text-xl heading py-7">Client stories</h1>
-        <div className="grid grid-cols-2 sm:grid-cols-4 xl:flex flex-wrap justify-between">
+        <div className="flex flex-wrap justify-start items-center">
             {clientStories.map((story, index) => {
               return <TestimonyItem name={story.name} testimony={story.comment} rating={story.rating} key={index}/>
             })}

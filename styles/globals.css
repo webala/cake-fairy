@@ -52,7 +52,7 @@ textarea {
 }
 
 .services {
-  margin: 200px 0 100px 0;
+  margin: 300px 0 100px 0;
 }
 .about {
   margin: 100px 0 0 0;
@@ -126,11 +126,8 @@ textarea {
 }
 
 @media screen and (min-width: 640px) {
-  .landing .text {
-    font-size: 1.5em;
-  }
-  .landing {
-    margin: 100px 0 100px 0;
+  .services {
+    margin: 500px 0 100px 0;
   }
 
   .heading {
@@ -156,6 +153,10 @@ textarea {
   .landing .text {
     font-size: 1.5em;
   }
+
+  .services {
+    margin: 600px 0 100px 0;
+  }
 }
 
 @media screen and (min-width: 1500px) {
@@ -165,5 +166,8 @@ textarea {
 
   .landing .text {
     font-size: 1.9em;
+  }
+  .services {
+    margin: 700px 0 100px 0;
   }
 }

@@ -2,7 +2,7 @@ import {MdOutlineStarRate} from 'react-icons/md'
 
 function TestimonyItem({name, testimony, rating}) {
   return (
-    <div className="bg-orange-900 m-2 rounded-md p-2 flex flex-col justify-between h-fit">
+    <div className="bg-orange-900 m-2 rounded-md p-2 flex flex-col justify-between h-fit w-44">
         <div className='flex flex-col sm:flex-row justify-between mb-5'>
           <h2>{name}</h2>
           <div className='flex'>

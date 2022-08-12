@@ -90,7 +90,7 @@ function MenuItem({
         {flavours.map((flavour, index) => {
           return (
             <div key={index} className="flavours">
-              <p className="sm:text-lg">{flavour.name}</p>
+              <p className="sm:text-xl">{flavour.name}</p>
             </div>
           );
         })}
