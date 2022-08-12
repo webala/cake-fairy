@@ -22,7 +22,7 @@ form input, textarea {
   border-radius: 5px;
   height: 40px;
   color: var(--text-primary);
-  width: 200px;
+  /* width: 200px; */
 }
 
 textarea {
@@ -141,9 +141,9 @@ textarea {
   .about {
     margin: 100px 0 0 0;
   }
-  form input, textarea {
+  /* form input, textarea {
     width: 300px;
-  }
+  } */
 }
 @media screen and (min-width: 1080px) {
   /* .main {
