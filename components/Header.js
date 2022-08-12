@@ -22,10 +22,10 @@ function Header() {
         </div>
         {/* <MenuIcon className="h-5 sm:invisible z-10 right-10"/> */}
         <div className="nav-items invisible sm:visible flex absolute sm:right-10 text-xl">
-            <NavItem Icon={NewspaperIcon} text="Menu" />
-            <NavItem Icon={BookOpenIcon} text="Services" />
-            <NavItem Icon={InformationCircleIcon} text="About" />
-            <NavItem Icon={PhoneIcon} text="Contact" />
+            <NavItem Icon={NewspaperIcon} text="Menu" reference='menu'/>
+            <NavItem Icon={BookOpenIcon} text="Services" reference='services'/>
+            <NavItem Icon={InformationCircleIcon} text="About" reference='about'/>
+            <NavItem Icon={PhoneIcon} text="Contact" reference='footer'/>
         </div>
       </div>
       <div className="absolute flex justify-center px-2 top-48 xl:top-80">

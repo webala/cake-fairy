@@ -6,7 +6,7 @@ import graduation from "../public/graduation.jpg";
 
 function Services() {
   return (
-    <div className="services px-4 md:px-20 xl:px-44">   
+    <div className="services px-4 md:px-20 xl:px-44" id="services">   
       <h1 className=' text-2xl heading'>Services</h1>
       <div className="grid grid-cols-2 sm:grid-cols-4 md:flex justify-evenly py-10">
         <Service image={birthday} service="Birthdays" />

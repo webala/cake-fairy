@@ -2,7 +2,7 @@ import Image from "next/image"
 import birthday from "../public/birthday.jpg";
 function About() {
   return (
-    <div className="about flex flex-col px-4 md:px-20 xl:px-44">
+    <div className="about flex flex-col px-4 md:px-20 xl:px-44" id="about">
         <h1 className="text-2xl heading">About me</h1>
         <div className=" flex flex-col md:flex-row items-center">
           <div className="w-2/3 md:w-1/2 p-10">

@@ -48,7 +48,7 @@ function ProcessOrder(props) {
 
   const handleDarajaPush = async (e) => {
     e.preventDefault();
-    const response = await inititateStkPush(clientPhone, deposit);
+    const response = await inititateStkPush(parseInt(clientPhone), deposit);
     console.log("response:", response);
     if (response.ResponseCode == 0) {
       setPaymentInitiated(true);

@@ -5,7 +5,7 @@ import { useState } from "react";
 function Menu({ categories, pathname, setFlavoursSelected, flavorsSelected }) {
   const [isLoading, setIsLoading] = useState(false);
   return (
-    <div className="menu px-4 md:px-20 xl:px-44">
+    <div className="menu px-4 md:px-20 xl:px-44" id="menu">
       {pathname !== "/order" && (
         <h1 className="text-2xl py-10 heading">Menu</h1>
       )}

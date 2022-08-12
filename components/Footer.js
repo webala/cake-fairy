@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BsInstagram, BsWhatsapp, BsTelephone, BsEnvelope } from "react-icons/bs";
 function Footer() {
   return (
-    <div className="px-4 md:px-20 xl:px-44 flex footer w-full bg-slate-900 py-10">
+    <div className="px-4 md:px-20 xl:px-44 flex footer w-full bg-slate-900 py-10" id="footer">
       <div className="flex flex-col justify-center items-start">
         <div className="group flex justify-center items-center mb-4 cursor-pointer">
           <BsInstagram className="group-hover:animate-bounce h-8 text-xl mr-4" />

@@ -93,6 +93,8 @@ export default function Order(props) {
       phoneNo = phone.slice(1)
     } else if(phone[0] == '0'){
       phoneNo = '254' + phone.slice(1)
+    } else {
+      phoneNo = phone
     }
 
     console.log('phone: ', phoneNo)
