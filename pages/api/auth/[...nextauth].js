@@ -13,7 +13,7 @@ export default NextAuth({
   callbacks: {
     async signIn({account, profile}) {
         if (account.provider === 'google') {
-            return profile.email === 'webala1001@gmail.com'
+            return profile.email === 'webala1001@gmail.com' || profile.email === 'charitymwabu@gmail.com'
         }
         return true // Verification for other providers
     }

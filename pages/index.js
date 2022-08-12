@@ -43,7 +43,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <Landing />
+      {/* <Landing /> */}
       <Services />
       <Menu categories={categories} />
       <About />

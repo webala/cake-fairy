@@ -31,9 +31,9 @@ textarea {
 
 
 
-.main {
+/* .main {
   padding: 20px;
-}
+} */
 
 .text {
   font-size: 1.9em;
@@ -149,9 +149,9 @@ textarea {
   }
 }
 @media screen and (min-width: 1080px) {
-  .main {
+  /* .main {
     padding: 0 100px;
-  }
+  } */
 
   .landing .text {
     font-size: 1.5em;
@@ -159,9 +159,9 @@ textarea {
 }
 
 @media screen and (min-width: 1500px) {
-  .main {
+  /* .main {
     padding: 0 200px;
-  }
+  } */
 
   .landing .text {
     font-size: 1.9em;
