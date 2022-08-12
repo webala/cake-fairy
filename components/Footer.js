@@ -1,20 +1,30 @@
 import Link from "next/link";
-import { BsInstagram, BsWhatsapp, BsTelephone } from "react-icons/bs";
+import { BsInstagram, BsWhatsapp, BsTelephone, BsEnvelope } from "react-icons/bs";
 function Footer() {
   return (
-    <div className="m-10 p-2 flex flex-col justify-evenly footer">
-      <div className="flex justify-evenly items-center">
-        <BsInstagram className="hover:animate-bounce h-8 text-xl cursor-pointer" />
-        <BsWhatsapp className="hover:animate-bounce h-8 text-xl cursor-pointer" />
-        <p className="flex flex-col items-center">
-          <BsTelephone className="hover:animate-bounce h-8 text-xl cursor-pointer relative top-3 right-10 sm:top-0 sm:right-0" />
-          <span className="invisible sm:visible"> +25483290101</span>
-        </p>
+    <div className="px-4 md:px-20 xl:px-44 flex footer w-full bg-slate-900 py-10">
+      <div className="flex flex-col justify-center items-start">
+        <div className="group flex justify-center items-center mb-4 cursor-pointer">
+          <BsInstagram className="group-hover:animate-bounce h-8 text-xl mr-4" />
+          <a className="invisible group-hover:visible hover:text-white" href="#">@cakefairy</a>
+        </div>
+        <div className="group flex justify-center items-center mb-4 cursor-pointer">
+          <BsWhatsapp className="group-hover:animate-bounce h-8 text-xl mr-4" />
+          <p className="invisible group-hover:visible"> +25483290101</p>
+        </div>
+        <div className="group flex justify-center items-center mb-4 cursor-pointer">
+          <BsEnvelope className="group-hover:animate-bounce h-8 text-xl mr-4" />
+          <p className="invisible group-hover:visible"> cakefairy@gmail.com</p>
+        </div>
+        <div className="group flex justify-center items-center mb-4 cursor-pointer">
+          <BsTelephone className="group-hover:animate-bounce h-8 text-xl mr-4" />
+          <p className="invisible group-hover:visible"> +25483290101</p>
+        </div>
       </div>
-      <div>
-        <Link href="/terms">
-          <p className="text-cyan-500 mr-2 cursor-pointer">Terms and conditions apply.</p>
-        </Link>
+      <div className="site-map flex flex-col relative left-20">
+        <Link href='/order'>Menu</Link>
+        <Link href="/terms">Terms and conditions</Link>
+        <Link href='/'>Cart</Link>
       </div>
     </div>
   );
