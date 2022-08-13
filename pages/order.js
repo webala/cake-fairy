@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { createOrder } from "../store/orderSlice";
 import { setCookie } from "cookies-next";
-
 import prisma from "../lib/prisma";
 
 export async function getServerSideProps() {
