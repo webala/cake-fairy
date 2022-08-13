@@ -1,7 +1,23 @@
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 
 function OrderForm({
-    
+    flavorsSelected,
+    setClientName,
+    setCollectionDate,
+    setCollectionTime,
+    setDelivery,
+    setPhone,
+    setWording,
+    setPreferences,
+    setEdibleImage,
+    setEdibleImageFormDisplay,
+    setSize,
+    processOrder,
+    size,
+    edibleImageFormDisplay,
+    handleAddOnsChange,
+    isLoading
 }) {
   return (
     <form
@@ -225,8 +241,11 @@ function OrderForm({
               <input type='file' name="edible-image" onChange={(e) => setEdibleImage(e.target.files[0])}/>
             </div>}
             <div>
-              <button type="submit" className="rounded-md p-3 bg-orange-900">
-                Process order
+              <button type="submit" className="rounded-md p-3 bg-orange-900 flex justify-evenly items-center w-44">
+                <p>Process order </p>
+                <AiOutlineLoading3Quarters
+                className={isLoading ? "visible animate-spin" : "invisible"}
+              />
               </button>
             </div>
           </div>

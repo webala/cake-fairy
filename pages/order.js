@@ -7,6 +7,8 @@ import { setCookie, getCookie } from "cookies-next";
 import prisma from "../lib/prisma";
 import { uploadEdbleImage } from "../firebase";
 import OrderForm from "../components/OrderForm";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export async function getServerSideProps(req, res) {
   const categories = await prisma.category_price.findMany({
@@ -44,6 +46,7 @@ export default function Order(props) {
   const [addOns, setAddOns] = useState([]);
   const [edibleImage, setEdibleImage] = useState()
   const [edibleImageFormDisplay, setEdibleImageFormDisplay] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   //Create cookies to store order
 
@@ -65,17 +68,22 @@ export default function Order(props) {
     }
   };
 
+
+  //this function creates an order object and stores it in the browser cookies
+  //the order will then be retreived and stored in the database in confirm order page
   const processOrder = async (e) => {
     e.preventDefault();
+    
+    //toggle loading animation
+    setIsLoading(true)
     const categoryId = flavorsSelected.categoryId;
     const category = categories.find((category) => category.id === categoryId);
-
-    console.log('Edible image: ', edibleImage)
 
     let order_total;
     let add_ons = [];
     let phoneNo
 
+    //Calculate the order total using database values and depending on cake size
     if (size == 0.5) {
       order_total = category.pfive;
     } else if (size == 1) {
@@ -90,6 +98,7 @@ export default function Order(props) {
       order_total = category.three;
     }
 
+    //create add ons object and update order total depending on add ons selected
     for (let i = 0; i < addOns.length; i++) {
       let add_on_id = parseInt(addOns[i]);
       let obj = { add_on_id };
@@ -103,6 +112,7 @@ export default function Order(props) {
       add_ons.push(obj);
     }
 
+    //format the phone number to standard format (254...)
     if (phone[0] == '+') {
       phoneNo = phone.slice(1)
     } else if(phone[0] == '0'){
@@ -115,7 +125,7 @@ export default function Order(props) {
       uploadEdbleImage(edibleImage)
     }
 
-    console.log('phone: ', phoneNo)
+    //create order object
     const order = {
       client_name: clientName,
       client_phone: phoneNo,
@@ -139,17 +149,18 @@ export default function Order(props) {
     };
 
     //set order cookie
-
     setCookie("order", order, { maxAge: 60 * 60 * 48, path: "/" });
 
     dispatch(createOrder(order));
-    //router.push("/process-order");
+    router.push("/process-order");
 
     // return await response.json();
   };
 
   return (
-    <div className="order p-4">
+    <div >
+      <Header />
+      <div className="order z-10">
       <Menu
         categories={categories}
         flavorsSelected={flavorsSelected}
@@ -159,19 +170,26 @@ export default function Order(props) {
       />
 
       <OrderForm 
-      setFlavoursSelected={setFlavoursSelected}
-      setSize={setSize}
-      setClientName={setClientName}
-      setCollectionDate={setCollectionDate}
-      setCollectionTime={setCollectionTime}
-      setPhone={setPhone}
-      setAddOns={setAddOns}
-      setDelivery={setDelivery}
-      setEdibleImage={setEdibleImage}
-      setEdibleImageFormDisplay={setEdibleImageFormDisplay}
-      setWording={setWording}
-      setPreferences={setPreferences}
+        flavorsSelected={flavorsSelected}
+        setSize={setSize}
+        size={size}
+        setClientName={setClientName}
+        setCollectionDate={setCollectionDate}
+        setCollectionTime={setCollectionTime}
+        setPhone={setPhone}
+        setAddOns={setAddOns}
+        setDelivery={setDelivery}
+        edibleImageFormDisplay={edibleImageFormDisplay}
+        setEdibleImage={setEdibleImage}
+        setEdibleImageFormDisplay={setEdibleImageFormDisplay}
+        setWording={setWording}
+        setPreferences={setPreferences}
+        handleAddOnsChange={handleAddOnsChange}
+        processOrder={processOrder}
+        isLoading={isLoading}
       />
+      </div>
+      <Footer />
     </div>
   );
 }

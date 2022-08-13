@@ -18,7 +18,7 @@ const inititateStkPush = async (phone, amount) => {
     PartyB: "174379",
     PhoneNumber: phone,
     CallBackURL:
-      "https://d982-41-90-53-60.eu.ngrok.io/api/daraja/mpesa-callback",
+      "https://0800-105-163-1-221.in.ngrok.io/api/daraja/mpesa-callback",
     AccountReference: "Cake Fairy",
     TransactionDesc: "Make Payment for cake",
   };

@@ -42,6 +42,12 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+      {/* <div className="absolute flex justify-center px-2 top-48 xl:top-80">
+        <h1 className="sm:p-7 md:w-5/6 text italic">
+          "Whether you love the simplicity of a banana or the taste of icing
+          we’ve got sweet treats for every craving!"
+        </h1>
+      </div> */}
       <Services />
       <Menu categories={categories} />
       <About />
