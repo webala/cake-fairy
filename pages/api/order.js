@@ -9,7 +9,6 @@ export default async function handler(req, res) {
 
   try {
     const orderData = JSON.parse(req.body);
-    console.log("order", orderData);
     const savedOrder = await prisma.order.create({
       data: orderData,
       include: {

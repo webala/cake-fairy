@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getCookie } from "cookies-next";
-import {RiAlarmWarningLine} from 'react-icons/ri'
+import { getCookie, setCookie } from "cookies-next";
 import prisma from "../lib/prisma";
 import inititateStkPush from "../daraja";
 import Link from "next/link";
+import { createTransaction } from "../store/transactionSlice";
 
 export async function getServerSideProps({ req, res }) {
   const flavours = await prisma.flavour.findMany();
@@ -40,32 +40,38 @@ function ProcessOrder(props) {
     })
   );
 
-  console.log('order:', cookieOrder)
+  const router = useRouter()
   
+  const dispatch = useDispatch()
 
   const collection_date = order.collection_date.toString().slice(0, 10);
 
   const handleDarajaPush = async (e) => {
     e.preventDefault();
     let response = await inititateStkPush(parseInt(clientPhone), deposit);
-    console.log("response:", response);
     if (response.ResponseCode == 0) {
-      
+      const requestId = response.CheckoutRequestID
+
       const data = {
-        request_id: response.CheckoutRequestID
+        request_id: requestId
       }
 
-      response = fetch('/api/transaction', {
+      response = await fetch('/api/transaction', {
         method: 'POST',
-        data: JSON.stringify(data)
+        body: JSON.stringify(data)
       })
 
-      console.log(response);
+      const savedTransaction = await response.json()
+      
+      setCookie('transactionId', savedTransaction.id)
+      const payload = {
+        transactionId: savedTransaction.id
+      }
+      dispatch(createTransaction(payload))
+      router.push('/confirm-order')
     }
 
   };
-
-  
 
   return (
     <div className="md:flex justify-center">

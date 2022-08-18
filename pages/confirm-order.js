@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import prisma from "../lib/prisma";
 import { useState, useEffect } from "react";
@@ -8,13 +7,20 @@ import { BiErrorAlt } from "react-icons/bi";
 import { FcRefresh } from "react-icons/fc";
 
 export async function getServerSideProps({ req, res }) {
-  const transactionDetails = await prisma.transaction_details.findMany();
+  const id = parseInt(getCookie('transactionId', {req, res}))
+  const transactionDetails = await prisma.transaction_details.findUnique(
+    {
+      where: {
+        id
+      }
+    }
+  );
+  const transactionDate = transactionDetails.transaction_date
 
-  transactionDetails.map((transaction) => {
-    let transactionDate = transaction.transaction_date;
-    transaction.transaction_date = transactionDate.toString();
-    return transaction;
-  });
+  if (transactionDate) {
+      transactionDetails.transaction_date = transactionDate.toString();
+  }
+  
 
   //get order from cookies in case browser is refreshed
   const order = getCookie("order", { req, res });
@@ -37,10 +43,8 @@ function ConfirmOrder({ transactionDetails, order }) {
   const router = useRouter();
 
   const confirmTransaction = async () => {
-    const transaction = transactionDetails.find(
-      (transaction) => transaction.phone_number == clientPhone
-    );
-    if (transaction) {
+    
+    if (transactionDetails.is_complete) {
       setOrderConfirmed(true);
       let response = await fetch("/api/order", {
         method: "POST",
@@ -55,11 +59,12 @@ function ConfirmOrder({ transactionDetails, order }) {
       }
 
       const data = {
-        transactionId: transaction.id,
+        transactionId: transactionDetails.id,
         transactionData: {
           order_id: savedOrder.id,
         },
       };
+
       response = await fetch("/api/transactionUpdate", {
         method: "PATCH",
         body: JSON.stringify(data),
@@ -72,8 +77,9 @@ function ConfirmOrder({ transactionDetails, order }) {
 
       const updatedTransaction = await response.json();
       console.log("updated transaction: ", updatedTransaction);
+      return updatedTransaction;
     }
-    return transaction;
+    
   };
   console.log("transaction: ", transaction);
 

@@ -79,7 +79,10 @@ model transaction_details {
   phone_number     String?   @db.VarChar
   order_id         Int?
   amount           Int?
+  is_complete      Boolean   @default(false)
   order            order?   @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([request_id])
 }
 
 model client_stories {
