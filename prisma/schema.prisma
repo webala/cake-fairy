@@ -50,6 +50,7 @@ model order_item {
   size        Int?
   wording     String   @db.VarChar(25)
   preferences String?  @db.VarChar(300)
+  edible_image        String?               @db.VarChar()
   order_id    Int      @default(autoincrement())
   flavour     flavour? @relation(fields: [flavour_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_flavour")
   order       order    @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order")
@@ -72,11 +73,12 @@ model order_item_add_ons {
 
 model transaction_details {
   id               Int      @id @default(autoincrement())
-  receipt_number   String   @db.VarChar
-  transaction_date DateTime @db.Date
-  phone_number     String   @db.VarChar
+  request_id       String   @db.VarChar
+  receipt_number   String?   @db.VarChar
+  transaction_date DateTime? @db.Date
+  phone_number     String?   @db.VarChar
   order_id         Int?
-  amount           Int
+  amount           Int?
   order            order?   @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 

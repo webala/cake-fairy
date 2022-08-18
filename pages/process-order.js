@@ -25,7 +25,6 @@ export async function getServerSideProps({ req, res }) {
 function ProcessOrder(props) {
   const cookieOrder = JSON.parse(props.order);
   const [flavours, setFlavours] = useState(props.flavours);
-  const [paymentInitiated, setPaymentInitiated] = useState(false);
   const [order, setOrder] = useState(cookieOrder);
   const [deposit, setDeposit] = useState(cookieOrder.order_total / 2);
   const [order_item, setOrder_item] = useState(
@@ -48,11 +47,22 @@ function ProcessOrder(props) {
 
   const handleDarajaPush = async (e) => {
     e.preventDefault();
-    const response = await inititateStkPush(parseInt(clientPhone), deposit);
+    let response = await inititateStkPush(parseInt(clientPhone), deposit);
     console.log("response:", response);
     if (response.ResponseCode == 0) {
-      setPaymentInitiated(true);
+      
+      const data = {
+        request_id: response.CheckoutRequestID
+      }
+
+      response = fetch('/api/transaction', {
+        method: 'POST',
+        data: JSON.stringify(data)
+      })
+
+      console.log(response);
     }
+
   };
 
   
@@ -140,22 +150,7 @@ function ProcessOrder(props) {
               </button>
             </form>
           </div>
-          {paymentInitiated && (
-            <div>
-              <div className="flex items-center">
-                <RiAlarmWarningLine className="mr-3 animate-ping text-red-600 "/>
-              <p className="text-red-600 text-xl">
-                Please complete the transaction by entering your m-pesa pin
-                before you proceed
-              </p>
-              </div>
-              <Link href="/confirm-order">
-                <button className="rounded-md p-2 bg-orange-900 my-5">
-                  All Done
-                </button>
-              </Link>
-            </div>
-          )}
+          
         </div>
       )}
     </div>
