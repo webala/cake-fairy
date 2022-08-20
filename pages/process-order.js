@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { getCookie, setCookie } from "cookies-next";
 import prisma from "../lib/prisma";

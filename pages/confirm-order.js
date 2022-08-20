@@ -33,9 +33,7 @@ export async function getServerSideProps({ req, res }) {
 }
 
 function ConfirmOrder({ transactionDetails, order }) {
-  const cookieOrder = JSON.parse(order);
-  console.log("cookie order: ", cookieOrder);
-  console.log(transactionDetails);
+  let cookieOrder = JSON.parse(order);
   const [clientPhone, setClientPhone] = useState(cookieOrder.client_phone);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [transaction, setTransaction] = useState();
@@ -46,6 +44,7 @@ function ConfirmOrder({ transactionDetails, order }) {
     
     if (transactionDetails.is_complete) {
       setOrderConfirmed(true);
+      cookieOrder['deposit_paid'] = true
       let response = await fetch("/api/order", {
         method: "POST",
         body: JSON.stringify(cookieOrder),

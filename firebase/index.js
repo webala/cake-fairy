@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {getStorage, ref, uploadBytes} from 'firebase/storage'
+var randomstring = require('randomstring')
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,11 +24,18 @@ const app = initializeApp(firebaseConfig);
 
 export const uploadEdbleImage = (file) => {
   const storage = getStorage()
-  const imageStorageref = ref(storage, `edibleImages/${file.name}`)
+  const randomString = randomstring.generate({
+    length: 12,
+    charset: 'alphabetic'
+  })
+  const location = `edibleImages/${randomString}${file.name}`
+  const imageStorageref = ref(storage, location)
 
   uploadBytes(imageStorageref, file).then((snapshot) => {
     console.log('image file uploaded')
   }).catch((error) => {
     console.log('error: ', error)
   })
+
+  return location
 }

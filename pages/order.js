@@ -82,6 +82,7 @@ export default function Order(props) {
     let order_total;
     let add_ons = [];
     let phoneNo
+    let edibleImageLocation = null
 
     //Calculate the order total using database values and depending on cake size
     if (size == 0.5) {
@@ -122,7 +123,7 @@ export default function Order(props) {
     }
 
     if (edibleImage) {
-      uploadEdbleImage(edibleImage)
+      edibleImageLocation = uploadEdbleImage(edibleImage)
     }
 
     //create order object
@@ -140,6 +141,7 @@ export default function Order(props) {
             size: parseInt(size),
             wording: wording,
             preferences: preferences ? preferences : "",
+            edible_image: edibleImageLocation,
           },
         ],
       },
