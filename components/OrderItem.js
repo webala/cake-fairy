@@ -1,10 +1,14 @@
 import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { useState } from "react";
+import Link from "next/link";
 
 function OrderItem({ order, flavours, section, updateOrder }) {
   const [orderPicked, setOrderpicked] = useState(order.picked);
   const [orderComplete, setOrderComplete] = useState(order.complete);
   let [className, setClassName] = useState("order mb-14 p-2");
+  const [edibleImageLocation, setEdibleImageLoacation] = useState(
+    order.order_item[0].edible_image
+  )
   const order_item = order.order_item[0];
   const flavourId = order_item.flavour_id;
   const flavour = flavours.find((flavour) => flavour.id == flavourId);
@@ -18,6 +22,7 @@ function OrderItem({ order, flavours, section, updateOrder }) {
   if (orderComplete) {
     className = "order flex flex-col items-center mb-14 p-2 bg-stone-900";
   }
+  console.log(order)
   return (
     <div className={className}>
       <div>
@@ -90,6 +95,7 @@ function OrderItem({ order, flavours, section, updateOrder }) {
             {order_item.preferences && (
               <p>Other Preferences: {order_item.preferences}</p>
             )}
+            {edibleImageLocation && <Link href={`/${edibleImageLocation}`} >View Edible Image</Link>}
           </div>
         </div>
         <div className="order-details">

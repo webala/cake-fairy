@@ -6,6 +6,7 @@ import prisma from "../lib/prisma";
 import inititateStkPush from "../daraja";
 import Link from "next/link";
 import { createTransaction } from "../store/transactionSlice";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export async function getServerSideProps({ req, res }) {
   const flavours = await prisma.flavour.findMany();
@@ -39,6 +40,8 @@ function ProcessOrder(props) {
       }
     })
   );
+  const [isLoading, setIsLoading] = useState(false)
+
 
   const router = useRouter()
   
@@ -48,6 +51,7 @@ function ProcessOrder(props) {
 
   const handleDarajaPush = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
     let response = await inititateStkPush(parseInt(clientPhone), deposit);
     if (response.ResponseCode == 0) {
       const requestId = response.CheckoutRequestID
@@ -150,9 +154,12 @@ function ProcessOrder(props) {
               </div>
               <button
                 type="submit"
-                className="rounded-md p-2 bg-orange-900 my-5"
+                className="rounded-md p-2 bg-orange-900 my-5 flex justify-evenly items-center w-44"
               >
-                Complete Order
+               <p> Complete Order</p>
+               <AiOutlineLoading3Quarters
+                className={isLoading ? "visible animate-spin" : "invisible"}
+              />
               </button>
             </form>
           </div>

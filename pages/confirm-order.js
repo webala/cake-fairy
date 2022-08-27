@@ -3,8 +3,7 @@ import prisma from "../lib/prisma";
 import { useState, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { GiConfirmed } from "react-icons/gi";
-import { BiErrorAlt } from "react-icons/bi";
-import { FcRefresh } from "react-icons/fc";
+import {ImSpinner2} from 'react-icons/im'
 
 export async function getServerSideProps({ req, res }) {
   const id = parseInt(getCookie('transactionId', {req, res}))
@@ -36,7 +35,7 @@ function ConfirmOrder({ transactionDetails, order }) {
   let cookieOrder = JSON.parse(order);
   const [clientPhone, setClientPhone] = useState(cookieOrder.client_phone);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
-  const [transaction, setTransaction] = useState();
+  const [flavour, setFlavour] = useState(cookieOrder.order_item.create[0]);
 
   const router = useRouter();
 
@@ -76,18 +75,23 @@ function ConfirmOrder({ transactionDetails, order }) {
 
       const updatedTransaction = await response.json();
       console.log("updated transaction: ", updatedTransaction);
-      return updatedTransaction;
     }
     
   };
-  console.log("transaction: ", transaction);
+  
+
+  if (!transactionDetails.is_complete) {
+    setTimeout(() => {
+      router.reload()
+    }, 10000)
+  }
 
   useEffect( () => {
-    const getTransaction = async () => {
-      let transaction = await confirmTransaction();
-      return transaction
-    }
-    setTransaction(getTransaction());
+    // const setOrder = async () => {
+    //   let transaction = await confirmTransaction();
+    //   return transaction
+    // }
+    // setOrder();
   }, []);
 
   return (
@@ -99,23 +103,14 @@ function ConfirmOrder({ transactionDetails, order }) {
             <p>Transaction confirmed.</p>
           </div>
           <div>
-            <p>Recipt: {transaction.receipt_number}</p>
+            <p>Recipt: {transactionDetails.receipt_number}</p>
           </div>
         </div>
       )}
       {!orderConfirmed && (
-        <div className="flex flex-col items-center">
-          <BiErrorAlt className="text-red-600 text-2xl" />
-          <div className="flex flex-col items-center mr-2">
-            <p>Transaction incomplete. Please try again.</p> <br />
-            <p>
-              If your transaction has gone through, try refreshing the page.
-            </p>
-          </div>
-          <FcRefresh
-            className="text-2xl hover:scale-125 transition duration-300 cursor-pointer"
-            onClick={() => router.reload()}
-          />
+        <div className="flex items-center">
+          <p className="mr-2">Listening for transaction</p>
+          <ImSpinner2 className="animate-spin"/> 
         </div>
       )}
     </div>

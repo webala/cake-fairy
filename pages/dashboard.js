@@ -24,6 +24,7 @@ export async function getServerSideProps() {
 
   const clientStories = await prisma.client_stories.findMany();
   const transactions = await prisma.transaction_details.findMany();
+  transactions.forEach((transaction) => transaction.transaction_date = transaction.transaction_date.toString())
   return {
     props: {
       orders,

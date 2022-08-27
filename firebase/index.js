@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import {getStorage, ref, uploadBytes} from 'firebase/storage'
+import {getStorage, ref, uploadBytes, getDownloadURL} from 'firebase/storage'
 var randomstring = require('randomstring')
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -38,4 +38,11 @@ export const uploadEdbleImage = (file) => {
   })
 
   return location
+}
+
+export const getEdibleImageUrl = async (filename) => {
+  const storage = getStorage()
+  console.log('filename:: ', filename)
+  const url = await getDownloadURL(ref(storage, `edibleImages/${filename}`))
+  return url
 }
