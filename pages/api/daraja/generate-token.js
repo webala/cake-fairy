@@ -7,8 +7,12 @@ const consumer_secret = process.env.CONSUMER_SECRET;
 //Handles fetching the access token
 export default async function handler(req, res) {
   //Encode cunsumer key and customer secret to a base 64 string
+  console.log('consumer key: ', consumer_key)
+  console.log('consumer secret: ', consumer_secret)
   let buffer = new Buffer.from(consumer_key + ":" + consumer_secret);
   let auth = `Basic ${buffer.toString("base64")}`; //Create auth string from base64 encoded string
+  
+  console.log('base64 string: ', auth)
 
   //Only allow get request
   if (req.method !== "GET") {
@@ -21,7 +25,6 @@ export default async function handler(req, res) {
         Authorization: auth,
       },
     });
-
     return res.status(response.status).json(response.data);
   } catch (error) {
     return res.status(error.response.status).json(error.response.data);

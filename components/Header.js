@@ -14,14 +14,20 @@ function Header() {
             src={landingImage}
             layout="intrinsic"
           />
+          <div className="flex justify-center px-2 my-10">
+            <h1 className="sm:p-7 md:w-5/6 text">
+              "Whether you love the simplicity of a banana or the taste of icing
+              we’ve got sweet treats for every craving!"
+            </h1>
+          </div>
       </div>
-      <div className="flex justify-between items-center py-10 px-2 font-bold">
+      <div className="flex justify-between w-full items-center py-10 px-4 md:px-20 xl:px-44 font-bold">
         <div className="flex items-center justify-between z-10">
             {/* <Image className="rounded-full" src={logo} width={50} height={50} layout="intrinsic"/> */}
             <h1 className="text-2xl heading ml-2">Cake Fairy</h1>
         </div>
         {/* <MenuIcon className="h-5 sm:invisible z-10 right-10"/> */}
-        <div className="nav-items invisible sm:visible flex absolute sm:right-10 text-xl">
+        <div className="nav-items invisible sm:visible flex text-xl">
             <NavItem Icon={NewspaperIcon} text="Menu" reference='menu'/>
             <NavItem Icon={BookOpenIcon} text="Services" reference='services'/>
             <NavItem Icon={InformationCircleIcon} text="About" reference='about'/>

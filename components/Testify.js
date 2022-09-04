@@ -40,7 +40,7 @@ function Testify() {
           <div className="flex flex-col sm:w-full items-start pt-10">
             <label className="text-xl mt-5">Your Name</label>
             <input
-              className="rounded h-10 w-1/2 text-black"
+              className="rounded h-10 w-1/2 md:w-56 text-black"
               type="text"
               onChange={(e) => setName(e.target.value)}
               required
@@ -48,7 +48,7 @@ function Testify() {
             />
             <label className="text-xl mt-5">What did you like about our service?</label>
             <textarea
-              className="rounded h-20 sm:h-40 my-5 w-2/3 md:w-1/2 text-black"
+              className="rounded h-20 sm:h-40 my-5 w-2/3 md:w-64 text-black"
               type="text"
               onChange={(e) => setComment(e.target.value)}
               required
@@ -61,7 +61,7 @@ function Testify() {
               className="rounded bg-orange-900 w-1/2  md:w-44 p-2 hover:scale-110 transition duration-300"
               type="submit"
             >
-              Leave Comment
+              Review
             </button>
           </div>
         </div>
