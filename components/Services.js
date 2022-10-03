@@ -6,9 +6,12 @@ import graduation from "../public/graduation.jpg";
 
 function Services() {
   return (
-    <div className="services px-4 md:px-20 xl:px-44" id="services">   
-      <h1 className=' text-2xl heading'>Services</h1>
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:flex justify-evenly py-10">
+    <div className="mt-16 md:mt-32 services px-4 md:px-20 xl:px-44 flex flex-col items-center" id="services">   
+      <h1 className="sm:p-7 md:w-5/6 text">
+              "Whether you love the simplicity of a banana or the taste of icing
+              we’ve got sweet treats for every craving!"
+            </h1>
+      <div className=" sm:grid-cols-4 flex flex-wrap justify-evenly py-10">
         <Service image={birthday} service="Birthdays" />
         <Service image={brakefast} service="Brakefast" />
         <Service image={disert} service="Diserts" />

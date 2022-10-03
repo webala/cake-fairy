@@ -4,16 +4,7 @@
 @tailwind utilities;
 
 
-html {
-  --background-primary: #1c0a00;
-  --background-secondary: #361500;
-  --text-primary: #cc9544;
-  --text-secondary: #603601;
-}
-
 body {
-  background: var(--background-primary);
-  color: var(--text-primary);
   font-family: 'Josefin Sans', sans-serif;
 }
 
@@ -51,9 +42,7 @@ textarea {
   font-family: 'Pacifico', cursive;
 }
 
-.services, .order {
-  margin: 300px 0 100px 0;
-}
+
 .about {
   margin: 100px 0 0 0;
 }
@@ -126,9 +115,6 @@ textarea {
 }
 
 @media screen and (min-width: 640px) {
-  .services, .order {
-    margin: 500px 0 100px 0;
-  }
 
   .heading {
     font-size: 1.9em;
@@ -154,9 +140,7 @@ textarea {
     font-size: 1.5em;
   }
 
-  .services {
-    margin: 600px 0 100px 0;
-  }
+  
 }
 
 @media screen and (min-width: 1500px) {
@@ -167,7 +151,5 @@ textarea {
   .landing .text {
     font-size: 1.9em;
   }
-  .services {
-    margin: 700px 0 100px 0;
-  }
+  
 }
