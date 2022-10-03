@@ -50,12 +50,10 @@ textarea {
   margin: 100px 0 100px 0;
 }
 
-.order-btn-icon {
-  transform: translateX(-50px);
-}
+
 
 .order-btn:hover .order-btn-icon {
-  transform: translateX(0);
+  transform: translateX(20px);
 }
 
 .order .text,.order label {
