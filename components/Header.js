@@ -7,7 +7,7 @@ import landingImage from "../public/breads.jpg";
 
 function Header() {
   return (
-    <header className="flex justify-between w-full items-center py-10 px-4 md:px-20 xl:px-64 font-bold bg-backgroundSecondary">
+    <header className="flex justify-between w-full items-center py-10 md:py-20 px-4 md:px-20 xl:px-64 font-bold bg-backgroundSecondary">
       <div className="flex items-center justify-between z-10">
         {/* <Image className="rounded-full" src={logo} width={50} height={50} layout="intrinsic"/> */}
         <h1 className="text-2xl heading ml-2">Cake Fairy</h1>

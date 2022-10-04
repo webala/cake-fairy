@@ -6,7 +6,8 @@ import { useState } from "react";
 function Menu({ categories, pathname, setFlavoursSelected, flavorsSelected }) {
   const [isLoading, setIsLoading] = useState(false);
   return (
-    <div className="menu px-4 md:px-20 xl:px-64" id="menu">
+    <div className="menu px-4 md:px-20 xl:px-64 pb-32 border-b border-backgroundSecondary" id="menu">
+      <h1 className="text-2xl font-bold underline heading">Menu</h1>
       <div className="">
         {categories.map((item, index) => {
           return (

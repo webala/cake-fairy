@@ -4,7 +4,7 @@ function StarRating({ rating, setRating }) {
   const[hover, setHover] = useState(0);
   return (
     <div className="star-rating my-10">
-      <p className="heading text-sm">Rate us</p>
+      <p className="text-xl">Rating</p>
       <div className="flex justify-between">
         {[...Array(5)].map((star, index) => {
           index += 1;
@@ -17,7 +17,7 @@ function StarRating({ rating, setRating }) {
               onMouseEnter={() => setHover(index)}
               onMouseLeave={() => setHover(rating)}
             >
-              <span className="star text-xl">&#9733;</span>
+              <span className="star text-2xl">&#9733;</span>
             </button>
           );
         })}

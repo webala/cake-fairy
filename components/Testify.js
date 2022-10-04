@@ -34,7 +34,7 @@ function Testify() {
     <div className="py-10 w-full">
       <form onSubmit={submitComment}>
         <div className="flex flex-col items-start">
-          <label className="text-xl mx-5 mt-5 heading">
+          <label className="underline text-2xl mt-5 heading">
             Share your experience with Cake Fairy
           </label>
           <div className="flex flex-col sm:w-full items-start pt-10">
@@ -54,14 +54,14 @@ function Testify() {
               required
               value={comment}
             />
-            <div className="relative left-28">
+            <div className="">
               <StarRating rating={rating} setRating={setRating} />
             </div>
             <button
-              className="rounded bg-orange-900 w-1/2  md:w-44 p-2 hover:scale-110 transition duration-300"
+              className="rounded  bg-backgroundSecondary p-2 hover:scale-110 transition duration-300"
               type="submit"
             >
-              Review
+              Leave Review
             </button>
           </div>
         </div>

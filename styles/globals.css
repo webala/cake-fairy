@@ -8,17 +8,9 @@ body {
   font-family: 'Josefin Sans', sans-serif;
 }
 
-form input, textarea {
-  border: 1px solid black;
-  border-radius: 5px;
-  height: 40px;
-  color: var(--text-primary);
-  /* width: 200px; */
-}
 
-textarea {
-  height: 100px; 
-}
+
+
 
 
 
@@ -38,7 +30,6 @@ textarea {
 }
 
 .heading {
-  font-size: 1.5em;
   font-family: 'Pacifico', cursive;
 }
 
@@ -61,24 +52,14 @@ textarea {
   transition: 0.5s ease;
 }
 
-.order-details-form {
-  margin: 100px 0;
-}
 
-.order-details-form .order-details {
-  margin-top: 100px;
-  border-radius: 16px;
-}
+
+
 
 .order .cart {
   border-radius: 16px;;
 }
 
-.order-details, 
-.client-details, 
-.order-item {
-  margin: 16px 0;
-}
 
 .dashboard .order {
   /* background: var(--background-secondary); */
@@ -98,12 +79,12 @@ textarea {
 }
 
 .star-rating .on {
-  color: var(--text-primary);
+  color: #FF96AD;
   transition: 0.3s ease;
 }
 
 .star-rating .off {
-  color: white;
+  color: var(--text-primary);
   transition: 0.3s ease;
 }
 
@@ -114,14 +95,6 @@ textarea {
 
 @media screen and (min-width: 640px) {
 
-  .heading {
-    font-size: 1.9em;
-    margin: 50px;
-  }
-
-  .cart .heading {
-    margin: 0;
-  }
   .about {
     margin: 200px 0 100px 0;
   }

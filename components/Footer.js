@@ -1,30 +1,46 @@
 import Link from "next/link";
-import { BsInstagram, BsWhatsapp, BsTelephone, BsEnvelope } from "react-icons/bs";
+import { BsInstagram, BsWhatsapp, BsTelephone, BsEnvelope, BsTwitter } from "react-icons/bs";
 function Footer() {
   return (
-    <div className="px-4 md:px-20 xl:px-44 flex footer w-full  bg-slate-900 py-10" id="footer">
-      <div className="flex flex-col justify-center items-start">
-        <div className="group flex justify-center items-center mb-4 cursor-pointer">
-          <BsInstagram className="group-hover:animate-bounce h-8 text-xl mr-4" />
-          <a className="invisible group-hover:visible hover:text-white" href="#">@cakefairy</a>
+    <div
+      className="px-4 md:px-20 justify-evenly xl:px-44 flex flex-col items-center footer w-full  bg-backgroundSecondary py-10"
+      id="footer"
+    >
+      <div className="flex flex-col  sm:flex-row w-full justify-evenly">
+        <div className="flex flex-col md:flex-row ">
+          <p className="mx-2">
+            <Link href="/">Home</Link>
+          </p>
+          <p className="mx-2">
+            <Link href="/">About</Link>
+          </p>
+          <p className="mx-2">
+            <Link href="/">Menu</Link>
+          </p>
         </div>
-        <div className="group flex justify-center items-center mb-4 cursor-pointer">
-          <BsWhatsapp className="group-hover:animate-bounce h-8 text-xl mr-4" />
-          <p className="invisible group-hover:visible"> +25483290101</p>
-        </div>
-        <div className="group flex justify-center items-center mb-4 cursor-pointer">
-          <BsEnvelope className="group-hover:animate-bounce h-8 text-xl mr-4" />
-          <p className="invisible group-hover:visible"> cakefairy@gmail.com</p>
-        </div>
-        <div className="group flex justify-center items-center mb-4 cursor-pointer">
-          <BsTelephone className="group-hover:animate-bounce h-8 text-xl mr-4" />
-          <p className="invisible group-hover:visible"> +25483290101</p>
+        <div className="flex flex-col md:flex-row">
+          <p className="mx-2">
+            <Link href="/">Terms of Service</Link>
+          </p>
+          <p className="mx-2">
+            <Link href="/">Refund Policy</Link>
+          </p>
         </div>
       </div>
-      <div className="site-map flex flex-col relative">
-        <Link href='/order'>Menu</Link>
-        <Link href="/terms">Terms and conditions</Link>
-        <Link href='/'>Cart</Link>
+      <div className="flex flex-col items-center my-10">
+        <p>DM us</p>
+        <div className="flex justify-between my-4">
+          <a className="mx-5 hover:animate-bounce text-xl">
+            <BsInstagram />
+          </a>
+          <a className="mx-5 hover:animate-bounce text-xl">
+            <BsTwitter />
+          </a>
+          <a className="mx-5 hover:animate-bounce text-xl">
+            <BsWhatsapp />
+          </a>
+        </div>
+        <p>+254791055897</p>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ export default function Home(props) {
       <Header />
       <Services />
       <Menu categories={categories} />
-      <About />
+      {/* <About /> */}
       <Testimonials clientStories={clientStories} setClientStories={setClientStories}/>
       <Footer />
     </div>

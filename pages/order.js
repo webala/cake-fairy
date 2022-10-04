@@ -17,12 +17,14 @@ export async function getServerSideProps(req, res) {
     },
   });
 
+  const flavours = await prisma.flavour.findMany();
+
   //get order from cookies in case browser is refreshed
   // const order = getCookie("order", { req, res });
   return {
     props: {
       categories,
-      // order
+      flavours
     },
   };
 }
@@ -44,10 +46,12 @@ export default function Order(props) {
   const [wording, setWording] = useState();
   const [preferences, setPreferences] = useState();
   const [addOns, setAddOns] = useState([]);
-  const [edibleImage, setEdibleImage] = useState()
-  const [edibleImageFormDisplay, setEdibleImageFormDisplay] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [edibleImage, setEdibleImage] = useState();
+  const [edibleImageFormDisplay, setEdibleImageFormDisplay] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+
+  const flavours = props.flavours;
   //Create cookies to store order
 
   const router = useRouter();
@@ -58,7 +62,7 @@ export default function Order(props) {
 
   const handleAddOnsChange = (e) => {
     const value = e.target.value;
-    
+
     if (e.target.checked) {
       let newAddOns = [...addOns, value];
       setAddOns(newAddOns);
@@ -68,21 +72,20 @@ export default function Order(props) {
     }
   };
 
-
   //this function creates an order object and stores it in the browser cookies
   //the order will then be retreived and stored in the database in confirm order page
   const processOrder = async (e) => {
     e.preventDefault();
-    
+
     //toggle loading animation
-    setIsLoading(true)
+    setIsLoading(true);
     const categoryId = flavorsSelected.categoryId;
     const category = categories.find((category) => category.id === categoryId);
 
     let order_total;
     let add_ons = [];
-    let phoneNo
-    let edibleImageLocation = null
+    let phoneNo;
+    let edibleImageLocation = null;
 
     //Calculate the order total using database values and depending on cake size
     if (size == 0.5) {
@@ -114,16 +117,16 @@ export default function Order(props) {
     }
 
     //format the phone number to standard format (254...)
-    if (phone[0] == '+') {
-      phoneNo = phone.slice(1)
-    } else if(phone[0] == '0'){
-      phoneNo = '254' + phone.slice(1)
+    if (phone[0] == "+") {
+      phoneNo = phone.slice(1);
+    } else if (phone[0] == "0") {
+      phoneNo = "254" + phone.slice(1);
     } else {
-      phoneNo = phone
+      phoneNo = phone;
     }
 
     if (edibleImage) {
-      edibleImageLocation = uploadEdbleImage(edibleImage)
+      edibleImageLocation = uploadEdbleImage(edibleImage);
     }
 
     //create order object
@@ -160,36 +163,31 @@ export default function Order(props) {
   };
 
   return (
-    <div >
+    <div className="min-h-screen flex flex-col items-center bg-backgroundPrimary text-textPrimary">
       <Header />
-      <div className="order z-10">
-      <Menu
-        categories={categories}
-        flavorsSelected={flavorsSelected}
-        className=""
-        pathname={pathname}
-        setFlavoursSelected={setFlavoursSelected}
-      />
 
-      <OrderForm 
-        flavorsSelected={flavorsSelected}
-        setSize={setSize}
-        size={size}
-        setClientName={setClientName}
-        setCollectionDate={setCollectionDate}
-        setCollectionTime={setCollectionTime}
-        setPhone={setPhone}
-        setAddOns={setAddOns}
-        setDelivery={setDelivery}
-        edibleImageFormDisplay={edibleImageFormDisplay}
-        setEdibleImage={setEdibleImage}
-        setEdibleImageFormDisplay={setEdibleImageFormDisplay}
-        setWording={setWording}
-        setPreferences={setPreferences}
-        handleAddOnsChange={handleAddOnsChange}
-        processOrder={processOrder}
-        isLoading={isLoading}
-      />
+      <div className="px-4 md:px-20 xl:px-64">
+        <OrderForm
+          flavorsSelected={flavorsSelected}
+          setFlavoursSelected={setFlavoursSelected}
+          setSize={setSize}
+          size={size}
+          setClientName={setClientName}
+          setCollectionDate={setCollectionDate}
+          setCollectionTime={setCollectionTime}
+          setPhone={setPhone}
+          setAddOns={setAddOns}
+          setDelivery={setDelivery}
+          edibleImageFormDisplay={edibleImageFormDisplay}
+          setEdibleImage={setEdibleImage}
+          setEdibleImageFormDisplay={setEdibleImageFormDisplay}
+          setWording={setWording}
+          setPreferences={setPreferences}
+          handleAddOnsChange={handleAddOnsChange}
+          processOrder={processOrder}
+          isLoading={isLoading}
+          flavours={flavours}
+        />
       </div>
       <Footer />
     </div>
