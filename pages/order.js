@@ -30,13 +30,8 @@ export async function getServerSideProps(req, res) {
 }
 
 export default function Order(props) {
-  // let cookieOrder
-  // if (props.order) {
-  //     cookieOrder = JSON.parse(props.order)
-  // }
-  // console.log('cookie order: ', cookieOrder)
-  const [categories, setCategories] = useState(props.categories);
-  const [flavorsSelected, setFlavoursSelected] = useState();
+  
+  const [flavourId, setFlavourId] = useState();
   const [size, setSize] = useState();
   const [clientName, setClientName] = useState();
   const [phone, setPhone] = useState();
@@ -52,17 +47,14 @@ export default function Order(props) {
 
 
   const flavours = props.flavours;
-  //Create cookies to store order
-
-  const router = useRouter();
-  const pathname = router.pathname;
-  // console.log("flaovursSelected:", flavorsSelected)
+  const categories = props.categories
 
   const dispatch = useDispatch();
+  const router = useRouter()
+
 
   const handleAddOnsChange = (e) => {
     const value = e.target.value;
-
     if (e.target.checked) {
       let newAddOns = [...addOns, value];
       setAddOns(newAddOns);
@@ -76,11 +68,13 @@ export default function Order(props) {
   //the order will then be retreived and stored in the database in confirm order page
   const processOrder = async (e) => {
     e.preventDefault();
-
     //toggle loading animation
     setIsLoading(true);
-    const categoryId = flavorsSelected.categoryId;
+    const flavourSelected = flavours.find((flavour) => flavour.id = flavourId)
+    const categoryId = flavourSelected.category_id;
+    console.log('CategoryID: ', categoryId)
     const category = categories.find((category) => category.id === categoryId);
+    console.log('Category: ', category)
 
     let order_total;
     let add_ons = [];
@@ -110,6 +104,9 @@ export default function Order(props) {
         order_total += 300;
       } else if (add_on_id == 2) {
         order_total += 600;
+        if (edibleImage) {
+          edibleImageLocation = uploadEdbleImage(edibleImage);
+        }
       } else if (add_on_id == 3) {
         order_total += 50;
       }
@@ -125,10 +122,6 @@ export default function Order(props) {
       phoneNo = phone;
     }
 
-    if (edibleImage) {
-      edibleImageLocation = uploadEdbleImage(edibleImage);
-    }
-
     //create order object
     const order = {
       client_name: clientName,
@@ -140,7 +133,7 @@ export default function Order(props) {
       order_item: {
         create: [
           {
-            flavour_id: flavorsSelected.flavourId,
+            flavour_id: flavourId,
             size: parseInt(size),
             wording: wording,
             preferences: preferences ? preferences : "",
@@ -153,23 +146,30 @@ export default function Order(props) {
       },
     };
 
+    let response = await fetch("/api/order", {
+      method: "POST",
+      body: JSON.stringify(order),
+    });
+
+    const savedOrder = await response.json()
+    console.log('Saved Order: ', savedOrder)
+
     //set order cookie
-    setCookie("order", order, { maxAge: 60 * 60 * 48, path: "/" });
+    setCookie("order_id", savedOrder.id, { maxAge: 60 * 60 * 48, path: "/" });
 
     dispatch(createOrder(order));
     router.push("/process-order");
-
-    // return await response.json();
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-backgroundPrimary text-textPrimary">
       <Header />
 
-      <div className="px-4 md:px-20 xl:px-64">
+      <div className="px-4 md:px-20 xl:px-64 my-32">
+        <h1 className="heading text-2xl mb-5 underline">Place order</h1>
         <OrderForm
-          flavorsSelected={flavorsSelected}
-          setFlavoursSelected={setFlavoursSelected}
+          flavourId={flavourId}
+          setFlavourId={setFlavourId}
           setSize={setSize}
           size={size}
           setClientName={setClientName}

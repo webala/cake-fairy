@@ -1,8 +1,8 @@
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 function OrderForm({
-  flavorsSelected,
-  setFlavoursSelected,
+  flavourId,
+  setFlavourId,
   setClientName,
   setCollectionDate,
   setCollectionTime,
@@ -25,10 +25,10 @@ function OrderForm({
       onSubmit={async (e) => {
         await processOrder(e);
       }}
-      className="bg-backgroundSecondary  my-32 w-full flex flex-col md:flex-row md:justify-center rounded-lg p-3"
+      className="bg-backgroundSecondary   w-full flex flex-col md:flex-row md:justify-center rounded-lg p-3"
     >
       <div className="px-5">
-        <div className="flex flex-col items-start my-4">
+        <div className="flex flex-col items-start mb-4">
           <label className="mr-2">Name</label>
           <input
             className="w-full border border-backgroundPrimary rounded h-8"
@@ -40,7 +40,7 @@ function OrderForm({
           />
         </div>
 
-        <div className="flex flex-col items-start my-4">
+        <div className="flex flex-col items-start mb-4">
           <label className="mr-2">Phone</label>
           <input
             className="w-full border border-backgroundPrimary rounded h-8"
@@ -52,7 +52,7 @@ function OrderForm({
           />
         </div>
 
-        <div className="flex flex-col items-start my-4">
+        <div className="flex flex-col items-start mb-4">
           <label className="mr-2">Would you like your cake delivered?</label>
           <div className="flex">
             <div className="mx-4 flex items-center">
@@ -78,18 +78,19 @@ function OrderForm({
           </div>
         </div>
 
-        <div>
+        <div className="mb-4">
           <label>Select Flavor</label>
-
           <div>
             {flavours.map((flavour) => {
               return (
-                <div>
+                <div key={flavour.id}>
                   <input
                     type="radio"
                     name="flavour"
                     value={flavour}
-                    onClick={(e) => setFlavoursSelected(e.target.value)}
+                    onClick={(e) => {
+                      setFlavourId(flavour.id);
+                    }}
                   />
                   <label>{flavour.name}</label>
                 </div>
@@ -98,7 +99,7 @@ function OrderForm({
           </div>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col items-start mb-4">
           <label className="">Cake Size</label>
           <div className="flex flex-wrap">
             <div className="flex flex-wrap mx-1 items-center">
@@ -166,7 +167,7 @@ function OrderForm({
       </div>
 
       <div className=" flex flex-col px-5 ">
-        <div className="flex flex-col items-start my-4">
+        <div className="flex flex-col items-start mb-4">
           <label className="mr-2">Pickup or delivery date</label>
           <input
             className="w-full border border-backgroundPrimary rounded h-8"
@@ -176,7 +177,7 @@ function OrderForm({
             onChange={(e) => setCollectionDate(e.target.value)}
           />
         </div>
-        <div className="flex flex-col items-start my-4">
+        <div className="flex flex-col items-start mb-4">
           <label className="mr-2">Time of delivery or collection</label>
           <input
             className="w-full border border-backgroundPrimary rounded h-8"
@@ -187,7 +188,7 @@ function OrderForm({
             onChange={(e) => setCollectionTime(e.target.value)}
           />
         </div>
-        <div className="flex flex-col items-start my-4">
+        <div className="flex flex-col items-start mb-4">
           <label className="mr-2">
             Wording on Cake(Not more than 25 characters)
           </label>
@@ -200,7 +201,7 @@ function OrderForm({
             onChange={(e) => setWording(e.target.value)}
           />
         </div>
-        <div className="flex flex-col items-start my-4">
+        <div className="flex flex-col items-start mb-4">
           <label className="mr-2">
             Do you have any other preferences? eg color, decorations
           </label>
@@ -212,10 +213,9 @@ function OrderForm({
             onChange={(e) => setPreferences(e.target.value)}
           />
         </div>
-        <div className="flex flex-col items-start my-4">
-          <label className="mr-2">Would you like some add-ons?</label>
+        <div className="flex flex-col items-start mb-4">
+          <label>Would you like some add-ons?</label>
           <div className="flex items-center">
-            <label className="mx-2">Cake toppers @300</label>
             <input
               className="w-4"
               name="add-ons"
@@ -223,9 +223,9 @@ function OrderForm({
               value={1}
               onClick={(e) => handleAddOnsChange(e)}
             />
+            <label className="">Cake toppers @300</label>
           </div>
           <div className="flex items-center">
-            <label className="mx-2">Edible images @600</label>
             <input
               className="w-4"
               name="add-ons"
@@ -236,9 +236,9 @@ function OrderForm({
                 handleAddOnsChange(e);
               }}
             />
+            <label className="">Edible image @600</label>
           </div>
           <div className="flex items-center">
-            <label className="mx-2">Sparkling candles @50</label>
             <input
               className="w-4"
               name="add-ons"
@@ -246,10 +246,11 @@ function OrderForm({
               value={3}
               onClick={(e) => handleAddOnsChange(e)}
             />
+            <label className="">Sparkling candles @50</label>
           </div>
         </div>
 
-        <div className="flex flex-col items-start my-4">
+        <div className="flex flex-col items-start mb-4">
           <label className="mb-2">Upload edible image</label>
           <input
             type="file"
@@ -261,9 +262,9 @@ function OrderForm({
         <div>
           <button
             type="submit"
-            className="rounded-md p-3 bg-orange-900 flex justify-evenly items-center w-44"
+            className="rounded-md py-1 px-2 hover:scale-110 transition duration-300 ease-in-out bg-textSecondary text-backgroundPrimary flex justify-center items-center"
           >
-            <p>Process order </p>
+            <p>Place order </p>
             <AiOutlineLoading3Quarters
               className={isLoading ? "visible animate-spin" : "invisible"}
             />

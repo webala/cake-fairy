@@ -44,10 +44,7 @@ function ConfirmOrder({ transactionDetails, order }) {
     if (transactionDetails.is_complete) {
       setOrderConfirmed(true);
       cookieOrder['deposit_paid'] = true
-      let response = await fetch("/api/order", {
-        method: "POST",
-        body: JSON.stringify(cookieOrder),
-      });
+      
 
       const savedOrder = await response.json();
       console.log("id:", savedOrder.id);
